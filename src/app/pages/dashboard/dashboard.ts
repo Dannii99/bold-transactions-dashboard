@@ -53,7 +53,7 @@ export class Dashboard {
   selectedCategories: any[] = [];
 
   categories: any[] = [
-    { name: 'Cobro con datafono', key: 1 },
+    { name: 'Cobro con datáfono', key: 1 },
     { name: 'Cobro con link de pago', key: 2 },
     { name: 'Ver todos', key: 3 },
   ];
@@ -62,7 +62,8 @@ export class Dashboard {
     this.selectedCategories = [this.categories[1]];
   }
 
-  closet() {
+  closet(event:Event) {
+    event.stopPropagation();
     this.isOpen.set(false);
     console.log('closet: ',this.isOpen());
 
