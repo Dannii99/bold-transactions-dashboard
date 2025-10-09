@@ -1,0 +1,17 @@
+:host ::ng-deep {
+  .my-custom-selectbutton.p-togglebutton {
+    background: #fff !important;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    border: 0 !important;
+    color: var(--b-primary-color);
+    &.p-togglebutton-checked  .p-togglebutton-content {
+      background: #f2f2f2 !important;
+      border-radius: 6.25rem;
+      margin: 0 1rem;
+      & .p-ink {
+        border-radius: 6.25rem;
+      }
+    }
+  }
+}
