@@ -1,9 +1,17 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, Input, input, signal } from '@angular/core';
 import { CommonModule, NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { bootstrapLink45deg } from '@ng-icons/bootstrap-icons';
+import { ionSearch } from '@ng-icons/ionicons';
+import { matTapAndPlayOutline } from '@ng-icons/material-icons/outline';
+import { KeyFilterModule } from 'primeng/keyfilter';
+import { LabelTx } from '@core/models/tables.model';
 
 interface Deduction {
   label: string;
@@ -33,75 +41,36 @@ interface Tx {
     InputTextModule,
     TagModule,
     TooltipModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    InputTextModule,
+    KeyFilterModule,
+    NgIcon,
   ],
   templateUrl: './table-list.html',
   styleUrl: './table-list.scss',
+  viewProviders: [provideIcons({ matTapAndPlayOutline, bootstrapLink45deg, ionSearch })],
 })
 export class TableList {
+
+  @Input() labels: LabelTx[] = []
+  @Input() body: any[] = []
+  @Input() cols: number = 4;
+  @Input() isSearch: boolean = false;
+  @Input() isLegend: boolean = false;
+  @Input() legend: string = '';
+
+
   // búsqueda
+  search:string = '';
   query: FormControl = new FormControl('');
 
-  // Demo data (reemplaza con tu API)
-  txs = signal<Tx[]>([
-    {
-      status: 'failed',
-      date: '2024-06-14T16:16:00',
-      method: { brand: 'visa', last4: '6544' },
-      boldId: 'GZENWZBAAX9W',
-      amount: 180000,
-    },
-    {
-      status: 'success',
-      date: '2024-06-13T16:16:00',
-      method: { brand: 'pse' },
-      boldId: 'GZENHP6WDV96V',
-      amount: 80000,
-      deductions: [{ label: 'Deducción Bold', value: 2400 }],
-    },
-    {
-      status: 'success',
-      date: '2024-06-14T03:42:31',
-      method: { brand: 'mastercard', last4: '1214' },
-      boldId: 'GZENMQ9QZFN8Y',
-      amount: 90000,
-      deductions: [{ label: 'Deducción Bold', value: 2700 }],
-    },
-    {
-      status: 'success',
-      date: '2024-06-14T16:16:00',
-      method: { brand: 'visa', last4: '4324' },
-      boldId: 'GZENW805EHB4O',
-      amount: 122200,
-      deductions: [{ label: 'Deducción Bold', value: 3666 }],
-    },
-    {
-      status: 'failed',
-      date: '2024-06-14T16:16:00',
-      method: { brand: 'other', last4: '7657' },
-      boldId: 'GZEN2JLEMU2D6',
-      amount: 80000,
-    },
-    {
-      status: 'success',
-      date: '2024-06-14T03:42:31',
-      method: { brand: 'visa', last4: '8768' },
-      boldId: 'GZENMVU9H08F6',
-      amount: 1155500,
-      deductions: [{ label: 'Deducción Bold', value: 34665 }],
-    },
-    {
-      status: 'failed',
-      date: '2024-06-14T16:16:00',
-      method: { brand: 'pse' },
-      boldId: 'GZENU8IIRFKCI',
-      amount: 100000,
-    },
-  ]);
+  blockChars: RegExp = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,\-:/]+$/;
 
   filtered = computed(() => {
     const q = this.query.value.trim().toLowerCase();
-    if (!q) return this.txs();
-    return this.txs().filter((tx) => {
+    if (!q) return this.body;
+    return this.body.filter((tx) => {
       const statusTxt = tx.status === 'success' ? 'cobro exitoso' : 'cobro no realizado';
       const methodTxt = `${tx.method.brand}${tx.method.last4 ?? ''}`;
       return [statusTxt, this.formatDateTime(tx.date), methodTxt, tx.boldId, this.toCOP(tx.amount)]
@@ -119,6 +88,7 @@ export class TableList {
       maximumFractionDigits: 0,
     }).format(n);
   }
+
   formatDateTime(iso: string): string {
     const d = new Date(iso);
     // Ej: 14/6/2024 - 16:16:00
@@ -130,4 +100,5 @@ export class TableList {
     const ss = String(d.getSeconds()).padStart(2, '0');
     return `${dd}/${mm}/${yyyy} - ${hh}:${mi}:${ss}`;
   }
+
 }

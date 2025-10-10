@@ -1,39 +1,16 @@
-import { CommonModule, NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, HostListener, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, computed, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { bootstrapInfoCircle } from '@ng-icons/bootstrap-icons';
 import { saxSetting4Outline } from '@ng-icons/iconsax/outline';
-import { ionClose, ionSearch } from '@ng-icons/ionicons';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { CheckboxModule } from 'primeng/checkbox';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PopoverModule } from 'primeng/popover';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputTextModule } from 'primeng/inputtext';
-import { KeyFilterModule } from 'primeng/keyfilter';
 import { TableList } from '@shared/components/ui/table-list/table-list';
-import { TagModule } from 'primeng/tag';
-import { TooltipModule } from 'primeng/tooltip';
+import { LabelTx, Tx } from '@core/models/tables.model';
+import { ButtonExtension } from '@shared/components/ui/button-extension/button-extension';
+import { State } from '@core/models/stateOptions';
 
-interface Deduction {
-  label: string;
-  value: number;
-}
-interface Method {
-  brand: 'visa' | 'mastercard' | 'pse' | 'amex' | 'nequi' | 'other';
-  last4?: string; // para tarjetas
-}
-interface Tx {
-  status: 'success' | 'failed';
-  date: string; // ISO (e.g., '2024-06-14T16:16:00')
-  method: Method;
-  boldId: string; // ID transacción Bold
-  amount: number; // monto total (positivo)
-  deductions?: Deduction[]; // valores a restar (positivos); se muestran en rojo
-}
 
 @Component({
   selector: 'app-dashboard',
@@ -42,92 +19,120 @@ interface Tx {
     ButtonModule,
     NgIcon,
     SelectButtonModule,
-    ToggleButtonModule,
-    PopoverModule,
     FormsModule,
     ReactiveFormsModule,
-    CheckboxModule,
-    InputGroupModule,
-    InputGroupAddonModule,
-    InputTextModule,
-    KeyFilterModule,
-    //____________
-        FormsModule,
-    ReactiveFormsModule,
-    NgClass,
-    NgTemplateOutlet,
-    InputTextModule,
-    TagModule,
-    TooltipModule,
-
+    TableList,
+    ButtonExtension
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
-  viewProviders: [provideIcons({ bootstrapInfoCircle, saxSetting4Outline, ionClose, ionSearch })],
+  viewProviders: [provideIcons({ bootstrapInfoCircle, saxSetting4Outline })],
 })
 export class Dashboard {
 
-  @HostListener('document:click', ['$event'])
-  clickOutside(event: Event) {
-     const target = event.target as HTMLElement;
+  // - State ___________________________
 
-    // Si el click NO es dentro de un elemento con la clase 'toggle-filter'
-    if (!target.closest('.toggle-filter-containt')) {
-      this.isOpen.set(false);
-    }
-  }
-
-  stateOptions: any[] = [
+  private baseOptions = signal<State[]>([
     { label: 'Hoy', value: 1 },
     { label: 'Esta semana', value: 2 },
-    { label: 'Junio', value: 3 },
-  ];
+    { label: 'N/A', value: 3 },
+  ]);
 
-  value: number = 1;
-  // componente.ts
-  isOpen = signal(false);
+  state = signal<number | null>(1);
 
-  selectedCategories: any[] = [];
+  // Signal computada que genera el mes actual
+  private currentMonth = computed(() => {
+    const month = new Date().toLocaleString('es-ES', { month: 'long' });
+    return month.charAt(0).toUpperCase() + month.slice(1);
+  });
 
+  // Computed que reemplaza el label dinámico con el mes actual
+  stateOptions = computed(() => {
+    return this.baseOptions().map((opt) =>
+      opt.value === 3 ? { ...opt, label: this.currentMonth() } : opt
+    );
+  });
+
+ // Signal computada que obtiene el label según el ID seleccionado
+  StateTitle = computed(() => {
+    const state = this.stateOptions().find(e => e.value === this.state());
+    return state ? state.label.toLowerCase() : 'N/A';
+  });
+
+
+
+  // Signal para el título formateado según la selección
+  dateCard = computed(() => {
+    const today = new Date();
+    const month = today.toLocaleString('es-ES', { month: 'long' });
+    const year = today.getFullYear();
+
+    switch (this.state()) {
+      // Hoy
+      case 1:
+        return `${today.getDate()} ${month}, ${year}`;
+
+      // Esta semana
+      case 2: {
+        const day = today.getDay(); // 0=domingo
+        const diffToMonday = (day + 6) % 7; // distancia a lunes
+        const monday = new Date(today);
+        monday.setDate(today.getDate() - diffToMonday);
+
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+
+        const format = (d: Date) =>
+          `${d.getDate()} ${d.toLocaleString('es-ES', { month: 'long' })}, ${d.getFullYear()}`;
+
+        return `${format(monday)} - ${format(sunday)}`;
+      }
+
+      // Mes actual
+      case 3:
+        return `${this.currentMonth()}, ${year}`;
+
+      default:
+        return '';
+    }
+  });
+
+   // - Button filter __________________
+
+  titleFilter: string = 'Filtrar';
   categories: any[] = [
     { name: 'Cobro con datáfono', key: 1 },
     { name: 'Cobro con link de pago', key: 2 },
     { name: 'Ver todos', key: 3 },
   ];
 
-  search:string = '';
-
-  blockChars: RegExp = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,\-:/]+$/;
 
 
-  // - filter ________________________________
-  ngOnInit() {
-    this.selectedCategories = [this.categories[1]];
-  }
+  // - Table _________________________________
 
-  closet(event:Event) {
-    event.stopPropagation();
-    this.isOpen.set(false);
-    console.log('closet: ',this.isOpen());
+  labelTxs:LabelTx[] = [
+    {
+      name: 'Transacción',
+      class: 'col-span-3'
+    },
+    {
+      name: 'Fecha y hora',
+      class: 'col-span-3'
+    },
+    {
+      name: 'Método de pago',
+      class: 'col-span-3'
+    },
+    {
+      name: 'ID transacción Bold',
+      class: 'col-span-3'
+    },
+    {
+      name: 'Monto',
+      class: 'col-span-2 text-left'
+    }
+  ]
 
-  }
-
-  append() {
-    this.isOpen.set(true);
-    console.log('append: ',this.isOpen());
-  }
-
-  toggle() {
-   this.isOpen.update(value => !value);
-    console.log('toggle: ',this.isOpen());
-  }
-
-  // - table _________________________________
-
-    // búsqueda
-  query: FormControl = new FormControl('');
-
-  // Demo data (reemplaza con tu API)
   txs = signal<Tx[]>([
     {
       status: 'failed',
@@ -183,39 +188,6 @@ export class Dashboard {
       amount: 100000,
     },
   ]);
-
-  filtered = computed(() => {
-    const q = this.search.trim().toLowerCase();
-    if (!q) return this.txs();
-    return this.txs().filter((tx) => {
-      const statusTxt = tx.status === 'success' ? 'cobro exitoso' : 'cobro no realizado';
-      const methodTxt = `${tx.method.brand}${tx.method.last4 ?? ''}`;
-      return [statusTxt, this.formatDateTime(tx.date), methodTxt, tx.boldId, this.toCOP(tx.amount)]
-        .join(' ')
-        .toLowerCase()
-        .includes(q);
-    });
-  });
-
-  // Helpers de formato
-  toCOP(n: number): string {
-    return new Intl.NumberFormat('es-CO', {
-      style: 'currency',
-      currency: 'COP',
-      maximumFractionDigits: 0,
-    }).format(n);
-  }
-  formatDateTime(iso: string): string {
-    const d = new Date(iso);
-    // Ej: 14/6/2024 - 16:16:00
-    const dd = d.getDate();
-    const mm = d.getMonth() + 1;
-    const yyyy = d.getFullYear();
-    const hh = String(d.getHours()).padStart(2, '0');
-    const mi = String(d.getMinutes()).padStart(2, '0');
-    const ss = String(d.getSeconds()).padStart(2, '0');
-    return `${dd}/${mm}/${yyyy} - ${hh}:${mi}:${ss}`;
-  }
 
 
 }

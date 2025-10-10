@@ -1,89 +1,110 @@
- <section class="w-full max-w-6xl mx-auto">
-    <!-- Header con gradiente y buscador -->
-    <div class="rounded-2xl overflow-hidden shadow-sm border border-slate-200 bg-white">
-      <div class="p-5 bg-gradient-to-r from-fuchsia-600 via-rose-500 to-orange-400 text-white">
-        <div class="flex items-center justify-between gap-4 flex-wrap">
-          <h2 class="text-lg md:text-xl font-semibold">Tus ventas de junio</h2>
-          <span class="p-input-icon-left w-full sm:w-auto">
-            <i class="pi pi-search"></i>
-            <input pInputText type="text" class="w-full sm:w-72" placeholder="Buscar" [formControl]="query" />
-          </span>
-        </div>
-      </div>
-
-      <!-- Header de columnas (solo desktop) -->
-      <div class="hidden md:grid grid-cols-12 gap-3 px-5 py-3 text-xs font-medium text-slate-500">
-        <div class="col-span-3">Transacción</div>
-        <div class="col-span-3">Fecha y hora</div>
-        <div class="col-span-2">Método de pago</div>
-        <div class="col-span-2">ID transacción Bold</div>
-        <div class="col-span-2 text-right">Monto</div>
-      </div>
-
-      <!-- Lista de filas -->
+<ng-container>
+  @if (isLegend) {
+    <div
+      class="w-full px-4 py-3 rounded-t-xl bg-[linear-gradient(270deg,var(--b-highlight-bg).86%,var(--b-primary-color)_83.33%)]"
+    >
+      <legend class="text-base text-white">{{legend}}</legend>
+    </div>
+  }
+  @if (isSearch) {
+    <div class="w-full bg-white">
+      <p-inputgroup>
+        <p-inputgroup-addon styleClass="p-inputgroup-addon-search">
+          <ng-icon name="ionSearch" class="text-xl !text-[var(--b-gray-color)]"></ng-icon>
+        </p-inputgroup-addon>
+        <input
+          maxlength="50"
+          pInputText
+          class="p-inputtext-search"
+          [(ngModel)]="search"
+          placeholder="Buscar"
+          [pKeyFilter]="blockChars"
+          fluid
+          autocomplete="off"
+        />
+      </p-inputgroup>
+    </div>
+  }
+  <div class="w-full bg-white">
+    <!-- Header de columnas (solo desktop) -->
+    <header
+      class="hidden md:grid gap-3 px-5 py-3 text-xs font-medium text-gray-700 border-y border-gray-200"
+      [ngClass]="'grid-cols-' + cols"
+    >
+    @for (item of labels; track idx; let idx = $index, e = $even ) {
+      <div [class]="item.class">{{item.name}}</div>
+    }
+    </header>
+    <body>
       <div class="divide-y divide-slate-200">
-        <ng-container *ngFor="let tx of filtered()">
-          <!-- Fila responsive: en md es una tabla; en móvil se ve como tarjeta/lista -->
-          <article class="px-5 py-4 grid grid-cols-12 gap-3 items-center">
-            <!-- Col 1: Estado + texto -->
-            <div class="col-span-12 md:col-span-3 flex items-start gap-3">
-              <div class="mt-0.5">
-                <ng-container [ngTemplateOutlet]="brandIcon" [ngTemplateOutletContext]="{brand: tx.method.brand}"></ng-container>
-              </div>
-              <div class="flex flex-col">
-                <span class="text-sm font-medium" [ngClass]="tx.status==='success' ? 'text-emerald-600' : 'text-slate-600'">
-                  {{ tx.status==='success' ? 'Cobro exitoso' : 'Cobro no realizado' }}
-                </span>
-                <span class="md:hidden text-[11px] text-slate-500">{{ formatDateTime(tx.date) }}</span>
-              </div>
+        @for (tx of filtered(); track idx; let idx = $index, e = $even) {
+        <article
+          class="px-5 py-3 grid grid-cols-14 gap-3 min-h-[4.375rem] bg-white border-b border-gray-400"
+          [ngClass]="[
+            e ? 'border-l-4 border-l-[var(--b-primary-color)]' : 'border-l-4 border-l-gray-400',
+            !tx.deductions ? 'items-center' : 'items-start'
+          ]"
+        >
+          <!-- Col 1: Estado + texto -->
+          <div class="col-span-12 md:col-span-3 flex items-start gap-3">
+            <div class="mt-0.5">
+              @if (tx.status === 'success') {
+              <ng-icon name="matTapAndPlayOutline" class="text-xl"></ng-icon>
+              } @else {
+              <ng-icon name="bootstrapLink45deg" class="text-xl"></ng-icon>
+              }
             </div>
-
-            <!-- Col 2: Fecha/hora -->
-            <div class="hidden md:block md:col-span-3 text-sm text-slate-700">
-              {{ formatDateTime(tx.date) }}
+            <div class="flex flex-col">
+              <span class="text-sm font-medium">
+                {{ tx.status === 'success' ? 'Cobro exitoso' : 'Cobro no realizado' }}
+              </span>
             </div>
+          </div>
 
-            <!-- Col 3: Método de pago -->
-            <div class="col-span-6 md:col-span-2 flex items-center gap-2 text-sm text-slate-700">
-              <ng-container [ngTemplateOutlet]="methodBadge" [ngTemplateOutletContext]="{method: tx.method}"></ng-container>
-            </div>
+          <!-- Col 2: Fecha/hora -->
+          <div class="block col-span-5 md:col-span-3 text-sm text-slate-700">
+            {{ formatDateTime(tx.date) }}
+          </div>
 
-            <!-- Col 4: ID Bold -->
-            <div class="col-span-6 md:col-span-2 text-xs md:text-sm text-slate-700">
-              {{ tx.boldId }}
-            </div>
+          <!-- Col 3: Método de pago -->
+          <div class="col-span-6 md:col-span-3 flex items-center gap-2 text-sm text-slate-700">
+            <ng-container
+              [ngTemplateOutlet]="methodBadge"
+              [ngTemplateOutletContext]="{ method: tx.method }"
+            ></ng-container>
+          </div>
 
-            <!-- Col 5: Monto + deducciones -->
-            <div class="col-span-12 md:col-span-2 md:text-right">
-              <div class="text-sm font-semibold text-indigo-600">{{ toCOP(tx.amount) }}</div>
-              <div *ngFor="let d of tx.deductions" class="text-[11px] text-rose-500">- {{ toCOP(d.value) }} <span class="text-slate-400">{{ d.label }}</span></div>
-            </div>
-          </article>
-        </ng-container>
+          <!-- Col 4: ID Bold -->
+          <div class="col-span-6 md:col-span-3 text-xs md:text-sm text-slate-700">
+            {{ tx.boldId }}
+          </div>
 
-        <div *ngIf="filtered().length===0" class="px-5 py-10 text-center text-slate-500">Sin resultados</div>
+          <!-- Col 5: Monto + deducciones -->
+          <div class="col-span-12 md:col-span-2 text-left">
+            <h4 class="text-sm font-semibold leading-2">{{ toCOP(tx.amount) }}</h4>
+            @for (d of tx.deductions; track idx; let idx = $index, e = $even) {
+            <span class="text-[0.6875rem] text-slate-400">{{ d.label }}</span>
+            <p class="text-[0.6875rem] text-rose-500">- {{ toCOP(d.value) }}</p>
+            }
+          </div>
+        </article>
+
+        } @empty {
+        <div class="px-5 py-10 text-center text-slate-500">Sin resultados</div>
+        }
       </div>
-    </div>
-  </section>
+    </body>
+  </div>
+</ng-container>
 
-  <!-- Templates auxiliares -->
-  <ng-template #brandIcon let-brand="brand">
-    <span class="inline-flex h-5 w-5 rounded-full items-center justify-center ring-1 ring-slate-200" [ngClass]="{
-      'bg-blue-50': brand==='visa',
-      'bg-orange-50': brand==='mastercard',
-      'bg-sky-50': brand==='pse',
-      'bg-purple-50': brand==='amex',
-      'bg-emerald-50': brand==='nequi'
-    }">
-      <i class="pi pi-credit-card text-xs text-slate-600"></i>
-    </span>
-  </ng-template>
-
-  <ng-template #methodBadge let-method="method">
-    <div class="flex items-center gap-2">
-      <span class="text-xs px-2 py-0.5 rounded-full ring-1 ring-slate-200 bg-slate-50 capitalize">{{ method.brand }}</span>
-      @if (method.last4) {
-        <span class="text-xs text-slate-500">•••• {{ method.last4 }}</span>
-      }
-    </div>
-  </ng-template>
+<!-- Templates auxiliares -->
+<ng-template #methodBadge let-method="method">
+  <div class="flex items-center gap-2">
+    <span class="text-xs px-2 py-0.5 rounded-full ring-1 ring-slate-200 bg-slate-50 capitalize">{{
+      method.brand
+    }}</span>
+    @if (method.last4) {
+    <span class="text-xs text-slate-500">•••• {{ method.last4 }}</span>
+    }
+  </div>
+</ng-template>
