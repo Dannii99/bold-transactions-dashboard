@@ -1,22 +1,28 @@
 <main class="py-16 px-4 md:px-8">
-  <div class="container xl:max-w-[80rem] mx-auto">
-    <section id="panel" class="w-full grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-4">
+  <div class="container 2xl:max-w-[1280px] mx-auto">
+    <section id="panel" class="w-full grid grid-cols-1 lg:grid-cols-9 gap-8 md:gap-4">
       <!-- Card -->
-      <div class="col-span-1 w-full rounded-2xl shadow-lg overflow-hidden">
+      <div
+        class="col-span-6 lg:col-span-3 w-full max-w-[25rem] mx-auto xl:max-w-full rounded-2xl shadow-lg overflow-hidden"
+      >
         <div
           class="w-full px-5 py-4 flex justify-between items-center gap-4 text-white rounded-t-2xl bg-[linear-gradient(270deg,var(--b-highlight-bg).86%,var(--b-primary-color)_83.33%)]"
         >
-          <p class="text-sm">Total de ventas en junio</p>
+          <p class="text-sm">Total de ventas de hoy</p>
           <ng-icon name="bootstrapInfoCircle" class="text-xl text-white"></ng-icon>
         </div>
         <div class="p-4 min-h-32 flex flex-col justify-center items-center">
-          <p class="montserrat-bold text-3xl mb-5">$ 9,1233,950</p>
-          <p class="text-base montserrat-semiBold">27 de Junio 2024</p>
+          <p
+            class="montserrat-bold text-3xl mb-5 bg-[linear-gradient(270deg,var(--b-highlight-bg)_0%,var(--b-primary-color)_130%)] bg-clip-text text-transparent"
+          >
+            $ 9,1233,950
+          </p>
+          <p class="text-base montserrat-semiBold">27 Junio 2024</p>
         </div>
       </div>
 
       <!-- Filters -->
-      <div class="flex flex-col items-end col-span-2 w-full gap-4">
+      <div class="flex flex-col items-end col-span-6 w-full mt-4 lg:mt-0 gap-4">
         <p-selectbutton
           [options]="stateOptions"
           [(ngModel)]="value"
@@ -31,53 +37,194 @@
 
         <div class="relative inline-block toggle-filter-containt">
           <!-- Botón -->
-          <button
-            #butonFilter
-            class="hidden absolute left-0 top-0 w-0 h-0"
-            (click)="append()"
-          >
+          <button #butonFilter class="hidden absolute left-0 top-0 w-0 h-0" (click)="append()">
             Filtrar
           </button>
 
           <!-- Panel expandible -->
           <div
             (click)="butonFilter.click()"
-            [ngClass]="isOpen() ? 'max-h-[13rem] min-h-[13rem] w-72' : 'max-h-12 w-36 cursor-pointer'"
+            [ngClass]="
+              isOpen() ? 'max-h-[13.5rem] min-h-[13.5rem] w-72' : 'max-h-12 w-36 cursor-pointer'
+            "
             class="overflow-hidden transition-all duration-300 ease-in-out bg-white rounded shadow p-3 absolute right-0 top-0"
           >
             <div class="relative">
-              <div class="flex justify-between items-center montserrat-regular absolute z-10 transition-all duration-200 ease-in-out w-full bg-white toggleClose" [ngClass]="isOpen() ? ' opacity-100' : 'opacity-0'">
+              <div
+                class="flex justify-between items-center montserrat-regular absolute z-10 transition-all duration-200 ease-in-out w-full bg-white toggleClose"
+                [ngClass]="isOpen() ? ' opacity-100' : 'opacity-0'"
+              >
                 <p class="text-base flex-1 text-center">Filtrar</p>
-                <ng-icon name="ionClose" class="text-xl text-white ml-2 cursor-pointer" (click)="closet($event)"></ng-icon>
+                <ng-icon
+                  name="ionClose"
+                  class="text-xl text-white ml-2 cursor-pointer"
+                  [class.pointer-events-none]="!isOpen()"
+                  (click)="closet($event)"
+                ></ng-icon>
               </div>
 
               @if (!isOpen()) {
-                <div class="flex justify-end items-center montserrat-bold">
-                  <p class="text-base ml-6">Filtrar</p>
-                  <ng-icon name="saxSetting4Outline" class="text-base text-white ml-2 mr-2"></ng-icon>
-                </div>
+              <div class="flex justify-end items-center montserrat-bold">
+                <p class="text-base ml-6">Filtrar</p>
+                <ng-icon name="saxSetting4Outline" class="text-base text-white ml-2 mr-2"></ng-icon>
+              </div>
               }
             </div>
-            <div class="pt-6 px-1 transition-all duration-500 ease-in-out" [ngClass]="isOpen() ? 'delay-[250ms] opacity-100 mt-6' : 'opacity-0'">
-              @if (isOpen()) {
-                @for (item of categories; track idx; let idx = $index, e = $even) {
-                  <div class="flex items-center">
-                    <p-checkbox
-                      [inputId]="item.key"
-                      name="group"
-                      [value]="item"
-                      [(ngModel)]="selectedCategories"
-                    />
-                    <label [for]="item.key" class="ml-2 text-base"> {{ item.name }} </label>
-                  </div>
-                }
+            <div
+              class="pt-6 px-1 transition-all duration-500 ease-in-out flex flex-col gap-2"
+              [ngClass]="isOpen() ? 'delay-[250ms] opacity-100 mt-6' : 'opacity-0'"
+            >
+              @if (isOpen()) { @for (item of categories; track idx; let idx = $index, e = $even) {
+              <div class="flex items-center gap-2">
+                <p-checkbox
+                  [inputId]="item.key"
+                  name="group"
+                  [value]="item"
+                  [(ngModel)]="selectedCategories"
+                />
+                <label [for]="item.key" class="ml-2 text-sm montserrat-semiBol font-semibold">
+                  {{ item.name }}
+                </label>
+              </div>
+              } } @if (isOpen()) {
+                <p-button label="Aplicar" styleClass="p-button-accent w-full mt-3" />
               }
-              <p-button label="Aplicar" styleClass="!bg-[var(--b-highlight-bg)]  text-white px-4 py-16 w-full !rounded-full boder-[none] mt-4" class=" h-7 boder-[none] "/>
-
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <section id="table" class="w-full mt-16 lg:mt-8">
+      <!-- <b-table-list></b-table-list> -->
+      <div
+        class="w-full px-4 py-3 rounded-t-xl bg-[linear-gradient(270deg,var(--b-highlight-bg).86%,var(--b-primary-color)_83.33%)]"
+      >
+        <legend class="text-base text-white">Tus ventas de hoy</legend>
+      </div>
+      <div class="w-full bg-white">
+        <p-inputgroup>
+          <p-inputgroup-addon styleClass="p-inputgroup-addon-search">
+            <ng-icon name="ionSearch" class="text-xl !text-[var(--b-gray-color)]"></ng-icon>
+          </p-inputgroup-addon>
+          <input
+            maxlength="50"
+            pInputText
+            class="p-inputtext-search"
+            [(ngModel)]="search"
+            placeholder="Buscar"
+            [pKeyFilter]="blockChars"
+            fluid
+            autocomplete="off"
+          />
+        </p-inputgroup>
+      </div>
+      <div class="w-full bg-white">
+        <!-- Header de columnas (solo desktop) -->
+        <header
+          class="hidden md:grid grid-cols-14 gap-3 px-5 py-3 text-xs font-medium text-gray-700 border-y border-gray-200"
+        >
+          <div class="col-span-3">Transacción</div>
+          <div class="col-span-3">Fecha y hora</div>
+          <div class="col-span-3">Método de pago</div>
+          <div class="col-span-3">ID transacción Bold</div>
+          <div class="col-span-2 text-left">Monto</div>
+        </header>
+        <body>
+          <div class="divide-y divide-slate-200">
+
+             @for (tx of filtered(); track idx; let idx = $index, e = $even) {
+
+              <!-- Fila responsive: en md es una tabla; en móvil se ve como tarjeta/lista -->
+              <article class="px-5 py-4 grid grid-cols-14 gap-3 items-center min-h-20 bg-white border-b border-gray-400"
+                      [ngClass]="e ? 'border-l-5 border-l-[var(--b-primary-color)]' : 'border-l-5 border-l-gray-400'"
+                      >
+
+                <!-- Col 1: Estado + texto -->
+                <div class="col-span-12 md:col-span-3 flex items-start gap-3">
+                  <!-- <div class="mt-0.5">
+                    <ng-container
+                      [ngTemplateOutlet]="brandIcon"
+                      [ngTemplateOutletContext]="{ brand: tx.method.brand }"
+                    ></ng-container>
+                  </div> -->
+                  <div class="flex flex-col">
+                    <span class="text-sm font-medium">
+                      {{ tx.status === 'success' ? 'Cobro exitoso' : 'Cobro no realizado' }}
+                    </span>
+                    <!-- <span class="md:hidden text-[11px] text-slate-500">{{
+                      formatDateTime(tx.date)
+                    }}</span> -->
+                  </div>
+                </div>
+
+
+                <!-- Col 2: Fecha/hora -->
+                <div class="block col-span-5 md:col-span-3 text-sm text-slate-700">
+                  {{ formatDateTime(tx.date) }}
+                </div>
+
+                <!-- Col 3: Método de pago -->
+                <div
+                  class="col-span-4 md:col-span-3 flex items-center gap-2 text-sm text-slate-700"
+                >
+                  <ng-container
+                    [ngTemplateOutlet]="methodBadge"
+                    [ngTemplateOutletContext]="{ method: tx.method }"
+                  ></ng-container>
+                </div>
+
+                <!-- Col 4: ID Bold -->
+                <div class="col-span-6 md:col-span-3 text-xs md:text-sm text-slate-700">
+                  {{ tx.boldId }}
+                </div>
+
+                <!-- Col 5: Monto + deducciones -->
+                <div class="col-span-12 md:col-span-2 text-left">
+                  <div class="text-sm font-semibold">{{ toCOP(tx.amount) }}</div>
+                  <div *ngFor="let d of tx.deductions" class="text-[11px] text-rose-500">
+                    - {{ toCOP(d.value) }} <span class="text-slate-400">{{ d.label }}</span>
+                  </div>
+                </div>
+              </article>
+
+            } @empty {
+              <div class="px-5 py-10 text-center text-slate-500">
+                Sin resultados
+              </div>
+            }
+          </div>
+        </body>
+      </div>
+    </section>
+
   </div>
 </main>
+
+
+<!-- Templates auxiliares -->
+<ng-template #brandIcon let-brand="brand">
+  <span
+    class="inline-flex h-5 w-5 rounded-full items-center justify-center ring-1 ring-slate-200"
+    [ngClass]="{
+      'bg-blue-50': brand === 'visa',
+      'bg-orange-50': brand === 'mastercard',
+      'bg-sky-50': brand === 'pse',
+      'bg-purple-50': brand === 'amex',
+      'bg-emerald-50': brand === 'nequi'
+    }"
+  >
+    <i class="pi pi-credit-card text-xs text-slate-600"></i>
+  </span>
+</ng-template>
+
+<ng-template #methodBadge let-method="method">
+  <div class="flex items-center gap-2">
+    <span class="text-xs px-2 py-0.5 rounded-full ring-1 ring-slate-200 bg-slate-50 capitalize">{{
+      method.brand
+    }}</span>
+    @if (method.last4) {
+    <span class="text-xs text-slate-500">•••• {{ method.last4 }}</span>
+    }
+  </div>
+</ng-template>
