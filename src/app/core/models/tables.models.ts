@@ -17,4 +17,19 @@ export interface Tx {
 export interface LabelTx {
   name: string;
   class?: string;
-}[]
+}
+
+export interface ApiTx {
+  id: string;
+  status: 'SUCCESSFUL' | 'REJECTED';
+  createdAt: number;
+  paymentMethod: string;
+  amount: number;
+  transactionReference: number;
+  salesType: 'TERMINAL' | 'PAYMENT_LINK';
+}
+
+export interface ApiResponse {
+  data: ApiTx[];
+}
+

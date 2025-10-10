@@ -15,7 +15,7 @@
           <p
             class="montserrat-bold text-3xl mb-5 bg-[linear-gradient(270deg,var(--b-highlight-bg)_0%,var(--b-primary-color)_130%)] bg-clip-text text-transparent"
           >
-            $ 9,1233,950
+            $ {{currency()}}
           </p>
           <p class="text-base montserrat-semiBold">{{dateCard()}}</p>
         </div>
@@ -36,13 +36,13 @@
         />
 
         <div class="relative inline-block toggle-filter-containt">
-          <b-button-extension [title]="titleFilter" [checkFilter]="categories"></b-button-extension>
+          <b-button-extension (filterChange)="onFilterChange($event)" [title]="titleFilter" [checkFilter]="paymentMethod"></b-button-extension>
         </div>
       </div>
     </section>
 
     <section id="table" class="w-full mt-16 lg:mt-8">
-      <b-table-list [cols]="14" [labels]="labelTxs" [body]="txs()" [isSearch]="true" [isLegend]="true" [legend]="`Tus ventas de ${StateTitle()}`"></b-table-list>
+      <b-table-list [cols]="14" [labels]="labelTxs" [body]="txs()" [SearchExternal]="filterTableTxs()" [isSearch]="true" [isLegend]="true" [legend]="`Tus ventas de ${StateTitle()}`"></b-table-list>
     </section>
   </div>
 </main>

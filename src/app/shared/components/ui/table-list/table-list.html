@@ -16,7 +16,8 @@
           maxlength="50"
           pInputText
           class="p-inputtext-search"
-          [(ngModel)]="search"
+          [value]="search()"
+          (input)="search.set($any($event.target).value)"
           placeholder="Buscar"
           [pKeyFilter]="blockChars"
           fluid
@@ -42,16 +43,16 @@
           class="px-5 py-3 grid grid-cols-14 gap-3 min-h-[4.375rem] bg-white border-b border-gray-400"
           [ngClass]="[
             e ? 'border-l-4 border-l-[var(--b-primary-color)]' : 'border-l-4 border-l-gray-400',
-            !tx.deductions ? 'items-center' : 'items-start'
+            tx.deductions.length === 0 ? 'items-center' : 'items-start'
           ]"
         >
           <!-- Col 1: Estado + texto -->
           <div class="col-span-12 md:col-span-3 flex items-start gap-3">
             <div class="mt-0.5">
-              @if (tx.status === 'success') {
-              <ng-icon name="matTapAndPlayOutline" class="text-xl"></ng-icon>
+              @if (tx.salesType === 'PAYMENT_LINK') {
+                <ng-icon name="bootstrapLink45deg" class="text-xl"></ng-icon>
               } @else {
-              <ng-icon name="bootstrapLink45deg" class="text-xl"></ng-icon>
+                <ng-icon name="matTapAndPlayOutline" class="text-xl"></ng-icon>
               }
             </div>
             <div class="flex flex-col">
@@ -90,7 +91,9 @@
         </article>
 
         } @empty {
-        <div class="px-5 py-10 text-center text-slate-500">Sin resultados</div>
+          <div class="w-full flex justify-center items-center px-4 py-8">
+            <h3 class="text-xl text-center text-slate-500 montserrat-semiBold">No hay resultados para tu búsqueda</h3>
+          </div>
         }
       </div>
     </body>
