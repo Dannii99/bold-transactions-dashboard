@@ -1,4 +1,4 @@
-import { Component, computed, Input, input, signal } from '@angular/core';
+import { Component, computed, effect, Input, input, OnInit, signal } from '@angular/core';
 import { CommonModule, NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -11,34 +11,15 @@ import { bootstrapLink45deg } from '@ng-icons/bootstrap-icons';
 import { ionSearch } from '@ng-icons/ionicons';
 import { matTapAndPlayOutline } from '@ng-icons/material-icons/outline';
 import { KeyFilterModule } from 'primeng/keyfilter';
-import { LabelTx } from '@core/models/tables.model';
-
-interface Deduction {
-  label: string;
-  value: number;
-}
-interface Method {
-  brand: 'visa' | 'mastercard' | 'pse' | 'amex' | 'nequi' | 'other';
-  last4?: string; // para tarjetas
-}
-interface Tx {
-  status: 'success' | 'failed';
-  date: string; // ISO (e.g., '2024-06-14T16:16:00')
-  method: Method;
-  boldId: string; // ID transacción Bold
-  amount: number; // monto total (positivo)
-  deductions?: Deduction[]; // valores a restar (positivos); se muestran en rojo
-}
+import { LabelTx } from '@core/models/tables.models';
+import { ExternalFilters, PaymentMethod, PaymentOption } from '@core/models/BtnExtension.models';
 
 @Component({
   selector: 'b-table-list',
   imports: [
     CommonModule,
-    FormsModule,
     ReactiveFormsModule,
-    NgClass,
     NgTemplateOutlet,
-    InputTextModule,
     TagModule,
     TooltipModule,
     InputGroupModule,
@@ -52,33 +33,68 @@ interface Tx {
   viewProviders: [provideIcons({ matTapAndPlayOutline, bootstrapLink45deg, ionSearch })],
 })
 export class TableList {
-
-  @Input() labels: LabelTx[] = []
-  @Input() body: any[] = []
+  @Input() labels: LabelTx[] = [];
   @Input() cols: number = 4;
+  body = input.required<any[]>();
   @Input() isSearch: boolean = false;
+  SearchExternal = input.required<any | null>();
   @Input() isLegend: boolean = false;
   @Input() legend: string = '';
 
-
   // búsqueda
-  search:string = '';
-  query: FormControl = new FormControl('');
+  search = signal('');
 
-  blockChars: RegExp = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,\-:/]+$/;
+  blockChars: RegExp = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,\-:$/]+$/;
 
   filtered = computed(() => {
-    const q = this.query.value.trim().toLowerCase();
-    if (!q) return this.body;
-    return this.body.filter((tx) => {
+    const term = this.search().trim().toLowerCase();
+    const external = this.SearchExternal();
+    const list = this.body();
+
+    // ─── Fechas ──────────────────────────────────────────────
+    const start = external?.state?.start ? new Date(external.state.start) : null;
+    const end = external?.state?.end ? new Date(external.state.end) : null;
+
+    // ─── Tipos de pago seleccionados ─────────────────────────
+    const selectedPayments = Object.values(external?.payment ?? {})
+      .filter((p: any) => p.key)
+      .map((p: any) => p.key); // ejemplo: ['PAYMENT_LINK', 'TERMINAL']
+
+      console.log('selectedPayments ==> ', selectedPayments);
+
+
+    const allPaymentsSelected = selectedPayments.includes('TODOS') || selectedPayments.length === 0;
+
+    // ─── Filtro principal ────────────────────────────────────
+    return list.filter((tx) => {
       const statusTxt = tx.status === 'success' ? 'cobro exitoso' : 'cobro no realizado';
       const methodTxt = `${tx.method.brand}${tx.method.last4 ?? ''}`;
-      return [statusTxt, this.formatDateTime(tx.date), methodTxt, tx.boldId, this.toCOP(tx.amount)]
-        .join(' ')
-        .toLowerCase()
-        .includes(q);
+
+      // texto libre del input
+      const matchSearch =
+        !term ||
+        [statusTxt, this.formatDateTime(tx.date), methodTxt, tx.boldId, this.toCOP(tx.amount)]
+          .join(' ')
+          .toLowerCase()
+          .includes(term);
+
+      // rango de fechas
+      const txDate = new Date(tx.date);
+      const matchDate = !start || !end || (txDate >= start && txDate <= end);
+
+      // tipo de cobro
+      const matchPayment = allPaymentsSelected || selectedPayments.includes(tx.salesType);
+
+      return matchSearch && matchDate && matchPayment;
     });
   });
+
+  constructor() {
+    effect(() => {
+      // console.log('Transactions updated:', this.body().length);
+      // console.log('SearchExternal updated:', this.SearchExternal());
+    });
+  }
 
   // Helpers de formato
   toCOP(n: number): string {
@@ -100,5 +116,4 @@ export class TableList {
     const ss = String(d.getSeconds()).padStart(2, '0');
     return `${dd}/${mm}/${yyyy} - ${hh}:${mi}:${ss}`;
   }
-
 }

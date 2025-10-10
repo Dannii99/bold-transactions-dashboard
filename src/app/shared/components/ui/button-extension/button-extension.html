@@ -37,14 +37,15 @@
     >
       @if (isOpen()) { @for (item of checkFilter; track idx; let idx = $index, e = $even) {
       <div class="flex items-center gap-2">
-        <p-checkbox [inputId]="item.key" name="group" [value]="item" [(ngModel)]="Selectedcheck" />
+        <p-checkbox [inputId]="item.key" name="group" [value]="item" [(ngModel)]="Selectedcheck"  [disabled]="item.disabled" (onChange)="onCheckChange(item)" />
         <label [for]="item.key" class="ml-2 text-sm montserrat-semiBol font-semibold">
           {{ item.name }}
         </label>
       </div>
       } } @if (isOpen()) {
-      <p-button label="Aplicar" styleClass="p-button-accent w-full mt-3" />
+      <p-button label="Aplicar" styleClass="p-button-accent w-full mt-3" (onClick)="submit($event)" />
       }
+
     </div>
   </div>
 </ng-container>
