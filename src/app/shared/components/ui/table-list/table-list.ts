@@ -1,20 +1,7 @@
-import { CommonModule, NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, HostListener, signal } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { bootstrapInfoCircle } from '@ng-icons/bootstrap-icons';
-import { saxSetting4Outline } from '@ng-icons/iconsax/outline';
-import { ionClose, ionSearch } from '@ng-icons/ionicons';
-import { SelectButtonModule } from 'primeng/selectbutton';
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { CheckboxModule } from 'primeng/checkbox';
+import { Component, computed, signal } from '@angular/core';
+import { CommonModule, NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PopoverModule } from 'primeng/popover';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
-import { KeyFilterModule } from 'primeng/keyfilter';
-import { TableList } from '@shared/components/ui/table-list/table-list';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 
@@ -36,95 +23,22 @@ interface Tx {
 }
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'b-table-list',
   imports: [
     CommonModule,
-    ButtonModule,
-    NgIcon,
-    SelectButtonModule,
-    ToggleButtonModule,
-    PopoverModule,
     FormsModule,
-    ReactiveFormsModule,
-    CheckboxModule,
-    InputGroupModule,
-    InputGroupAddonModule,
-    InputTextModule,
-    KeyFilterModule,
-    //____________
-        FormsModule,
     ReactiveFormsModule,
     NgClass,
     NgTemplateOutlet,
     InputTextModule,
     TagModule,
     TooltipModule,
-
   ],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss',
-  viewProviders: [provideIcons({ bootstrapInfoCircle, saxSetting4Outline, ionClose, ionSearch })],
+  templateUrl: './table-list.html',
+  styleUrl: './table-list.scss',
 })
-export class Dashboard {
-
-  @HostListener('document:click', ['$event'])
-  clickOutside(event: Event) {
-     const target = event.target as HTMLElement;
-
-    // Si el click NO es dentro de un elemento con la clase 'toggle-filter'
-    if (!target.closest('.toggle-filter-containt')) {
-      this.isOpen.set(false);
-    }
-  }
-
-  stateOptions: any[] = [
-    { label: 'Hoy', value: 1 },
-    { label: 'Esta semana', value: 2 },
-    { label: 'Junio', value: 3 },
-  ];
-
-  value: number = 1;
-  // componente.ts
-  isOpen = signal(false);
-
-  selectedCategories: any[] = [];
-
-  categories: any[] = [
-    { name: 'Cobro con datáfono', key: 1 },
-    { name: 'Cobro con link de pago', key: 2 },
-    { name: 'Ver todos', key: 3 },
-  ];
-
-  search:string = '';
-
-  blockChars: RegExp = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,\-:/]+$/;
-
-
-  // - filter ________________________________
-  ngOnInit() {
-    this.selectedCategories = [this.categories[1]];
-  }
-
-  closet(event:Event) {
-    event.stopPropagation();
-    this.isOpen.set(false);
-    console.log('closet: ',this.isOpen());
-
-  }
-
-  append() {
-    this.isOpen.set(true);
-    console.log('append: ',this.isOpen());
-  }
-
-  toggle() {
-   this.isOpen.update(value => !value);
-    console.log('toggle: ',this.isOpen());
-  }
-
-  // - table _________________________________
-
-    // búsqueda
+export class TableList {
+  // búsqueda
   query: FormControl = new FormControl('');
 
   // Demo data (reemplaza con tu API)
@@ -185,7 +99,7 @@ export class Dashboard {
   ]);
 
   filtered = computed(() => {
-    const q = this.search.trim().toLowerCase();
+    const q = this.query.value.trim().toLowerCase();
     if (!q) return this.txs();
     return this.txs().filter((tx) => {
       const statusTxt = tx.status === 'success' ? 'cobro exitoso' : 'cobro no realizado';
@@ -216,6 +130,4 @@ export class Dashboard {
     const ss = String(d.getSeconds()).padStart(2, '0');
     return `${dd}/${mm}/${yyyy} - ${hh}:${mi}:${ss}`;
   }
-
-
 }
