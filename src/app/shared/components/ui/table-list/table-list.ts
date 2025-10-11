@@ -1,6 +1,16 @@
-import { Component, computed, effect, Input, input, OnInit, signal } from '@angular/core';
-import { CommonModule, NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  computed,
+  effect,
+  EventEmitter,
+  Input,
+  input,
+  OnInit,
+  Output,
+  signal,
+} from '@angular/core';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
@@ -11,8 +21,11 @@ import { bootstrapLink45deg } from '@ng-icons/bootstrap-icons';
 import { ionSearch } from '@ng-icons/ionicons';
 import { matTapAndPlayOutline } from '@ng-icons/material-icons/outline';
 import { KeyFilterModule } from 'primeng/keyfilter';
-import { LabelTx } from '@core/models/tables.models';
-import { ExternalFilters, PaymentMethod, PaymentOption } from '@core/models/BtnExtension.models';
+import { LabelTx, Tx } from '@core/models/tables.models';
+import { SkeletonModule } from 'primeng/skeleton';
+import { toCOP } from '@core/functions';
+import { DrawerDetailsComponent } from '../drawer-details/drawer-details.component';
+import { formatDateTime } from '@core/functions/formatDate.functions';
 
 @Component({
   selector: 'b-table-list',
@@ -27,25 +40,53 @@ import { ExternalFilters, PaymentMethod, PaymentOption } from '@core/models/BtnE
     InputTextModule,
     KeyFilterModule,
     NgIcon,
+    SkeletonModule,
+    DrawerDetailsComponent,
   ],
   templateUrl: './table-list.html',
   styleUrl: './table-list.scss',
   viewProviders: [provideIcons({ matTapAndPlayOutline, bootstrapLink45deg, ionSearch })],
 })
 export class TableList {
-  @Input() labels: LabelTx[] = [];
-  @Input() cols: number = 4;
+  loading = input.required<boolean>();
+  labels = input.required<LabelTx[]>();
+  cols = input.required<number>();
   body = input.required<any[]>();
-  @Input() isSearch: boolean = false;
   SearchExternal = input.required<any | null>();
+  @Input() isSearch: boolean = false;
   @Input() isLegend: boolean = false;
   @Input() legend: string = '';
+
+  @Output() totalChange = new EventEmitter<number>();
 
   // búsqueda
   search = signal('');
 
+  // drawer ____________________
+  drawerVisible = signal<boolean>(false);
+
+  defaultTx: Tx = {
+    status: 'success',
+    date: new Date().toISOString(),
+    method: {brand: ''},
+    boldId: '',
+    amount: 0,
+    salesType: '',
+    deductions: [{label: '', value: 0}],
+  };
+
+  drawerParams = signal<Tx>(this.defaultTx);
+
+  updateVisible(value: boolean) {
+    this.drawerVisible.set(value);
+  }
+
+  // Computed: genera un array [1, 2, 3, ..., cols]
+  skeletonList = computed(() => Array.from({ length: this.labels().length }, (_, i) => i + 1));
+
   blockChars: RegExp = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,\-:$/]+$/;
 
+  // Computed: filtro general de la tabla
   filtered = computed(() => {
     const term = this.search().trim().toLowerCase();
     const external = this.SearchExternal();
@@ -60,9 +101,6 @@ export class TableList {
       .filter((p: any) => p.key)
       .map((p: any) => p.key); // ejemplo: ['PAYMENT_LINK', 'TERMINAL']
 
-      console.log('selectedPayments ==> ', selectedPayments);
-
-
     const allPaymentsSelected = selectedPayments.includes('TODOS') || selectedPayments.length === 0;
 
     // ─── Filtro principal ────────────────────────────────────
@@ -73,7 +111,7 @@ export class TableList {
       // texto libre del input
       const matchSearch =
         !term ||
-        [statusTxt, this.formatDateTime(tx.date), methodTxt, tx.boldId, this.toCOP(tx.amount)]
+        [statusTxt, formatDateTime(tx.date), methodTxt, tx.boldId, toCOP(tx.amount)]
           .join(' ')
           .toLowerCase()
           .includes(term);
@@ -89,31 +127,32 @@ export class TableList {
     });
   });
 
+  // Total de las transacciones filtradas
+  TransaccionTotal = computed(() => {
+    return this.filtered().reduce((acc, tx) => {
+      const totalDeductions = tx.deductions?.reduce((sum: number, d: any) => sum + d.value, 0) || 0;
+      return acc + (tx.amount - totalDeductions);
+    }, 0);
+  });
+
   constructor() {
     effect(() => {
-      // console.log('Transactions updated:', this.body().length);
-      // console.log('SearchExternal updated:', this.SearchExternal());
+      this.totalChange.emit(this.TransaccionTotal());
     });
   }
 
-  // Helpers de formato
-  toCOP(n: number): string {
-    return new Intl.NumberFormat('es-CO', {
-      style: 'currency',
-      currency: 'COP',
-      maximumFractionDigits: 0,
-    }).format(n);
+  drawerOpen(tx: Tx) {
+    this.drawerVisible.set(true);
+    this.drawerParams.set(tx);
   }
 
-  formatDateTime(iso: string): string {
-    const d = new Date(iso);
-    // Ej: 14/6/2024 - 16:16:00
-    const dd = d.getDate();
-    const mm = d.getMonth() + 1;
-    const yyyy = d.getFullYear();
-    const hh = String(d.getHours()).padStart(2, '0');
-    const mi = String(d.getMinutes()).padStart(2, '0');
-    const ss = String(d.getSeconds()).padStart(2, '0');
-    return `${dd}/${mm}/${yyyy} - ${hh}:${mi}:${ss}`;
+  setToCOP(value: number): string {
+    return toCOP(value);
   }
+  setFormatDateTime(value: string): string {
+    return formatDateTime(value);
+  }
+
+
 }
+  

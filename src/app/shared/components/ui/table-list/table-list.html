@@ -1,58 +1,45 @@
 <ng-container>
   @if (isLegend) {
-    <div
-      class="w-full px-4 py-3 rounded-t-xl bg-[linear-gradient(270deg,var(--b-highlight-bg).86%,var(--b-primary-color)_83.33%)]"
-    >
-      <legend class="text-base text-white">{{legend}}</legend>
-    </div>
+  <div
+    class="w-full px-4 py-3 rounded-t-xl bg-[linear-gradient(270deg,var(--b-highlight-bg).86%,var(--b-primary-color)_83.33%)]">
+    <legend class="text-base text-white">{{legend}}</legend>
+  </div>
   }
   @if (isSearch) {
-    <div class="w-full bg-white">
-      <p-inputgroup>
-        <p-inputgroup-addon styleClass="p-inputgroup-addon-search">
-          <ng-icon name="ionSearch" class="text-xl !text-[var(--b-gray-color)]"></ng-icon>
-        </p-inputgroup-addon>
-        <input
-          maxlength="50"
-          pInputText
-          class="p-inputtext-search"
-          [value]="search()"
-          (input)="search.set($any($event.target).value)"
-          placeholder="Buscar"
-          [pKeyFilter]="blockChars"
-          fluid
-          autocomplete="off"
-        />
-      </p-inputgroup>
-    </div>
+  <div class="w-full bg-white">
+    <p-inputgroup>
+      <p-inputgroup-addon styleClass="p-inputgroup-addon-search">
+        <ng-icon name="ionSearch" class="text-xl !text-[var(--b-gray-color)]"></ng-icon>
+      </p-inputgroup-addon>
+      <input maxlength="50" pInputText class="p-inputtext-search" [value]="search()"
+        (input)="search.set($any($event.target).value)" placeholder="Buscar" [pKeyFilter]="blockChars" fluid
+        autocomplete="off" />
+    </p-inputgroup>
+  </div>
   }
   <div class="w-full bg-white">
     <!-- Header de columnas (solo desktop) -->
-    <header
-      class="hidden md:grid gap-3 px-5 py-3 text-xs font-medium text-gray-700 border-y border-gray-200"
-      [ngClass]="'grid-cols-' + cols"
-    >
-    @for (item of labels; track idx; let idx = $index, e = $even ) {
+    <header class="hidden md:grid gap-3 px-5 py-3 text-xs font-medium text-gray-700 border-y border-gray-200"
+      [ngClass]="'grid-cols-' + cols()">
+      @for (item of labels(); track idx; let idx = $index, e = $even ) {
       <div [class]="item.class">{{item.name}}</div>
-    }
+      }
     </header>
+
     <body>
       <div class="divide-y divide-slate-200">
         @for (tx of filtered(); track idx; let idx = $index, e = $even) {
-        <article
-          class="px-5 py-3 grid grid-cols-14 gap-3 min-h-[4.375rem] bg-white border-b border-gray-400"
-          [ngClass]="[
-            e ? 'border-l-4 border-l-[var(--b-primary-color)]' : 'border-l-4 border-l-gray-400',
+        <article (click)="drawerOpen(tx)" class="px-5 py-3 grid grid-cols-14 gap-3 min-h-[4.375rem] bg-white border-b border-gray-400 cursor-pointer hover:inset-shadow-sm hover:inset-shadow-gray-200" [ngClass]="[
+            e ? 'border-l-4 border-l-[var(--b-primary-color)] hover:border-l-blue-900' : 'border-l-4 border-l-gray-400 hover:border-l-gray-500', 
             tx.deductions.length === 0 ? 'items-center' : 'items-start'
-          ]"
-        >
+          ]">
           <!-- Col 1: Estado + texto -->
           <div class="col-span-12 md:col-span-3 flex items-start gap-3">
             <div class="mt-0.5">
               @if (tx.salesType === 'PAYMENT_LINK') {
-                <ng-icon name="bootstrapLink45deg" class="text-xl"></ng-icon>
+              <ng-icon name="bootstrapLink45deg" class="text-xl"></ng-icon>
               } @else {
-                <ng-icon name="matTapAndPlayOutline" class="text-xl"></ng-icon>
+              <ng-icon name="matTapAndPlayOutline" class="text-xl"></ng-icon>
               }
             </div>
             <div class="flex flex-col">
@@ -64,15 +51,13 @@
 
           <!-- Col 2: Fecha/hora -->
           <div class="block col-span-5 md:col-span-3 text-sm text-slate-700">
-            {{ formatDateTime(tx.date) }}
+            {{ setFormatDateTime(tx.date) }}
           </div>
 
           <!-- Col 3: Método de pago -->
           <div class="col-span-6 md:col-span-3 flex items-center gap-2 text-sm text-slate-700">
-            <ng-container
-              [ngTemplateOutlet]="methodBadge"
-              [ngTemplateOutletContext]="{ method: tx.method }"
-            ></ng-container>
+            <ng-container [ngTemplateOutlet]="methodBadge"
+              [ngTemplateOutletContext]="{ method: tx.method }"></ng-container>
           </div>
 
           <!-- Col 4: ID Bold -->
@@ -82,18 +67,30 @@
 
           <!-- Col 5: Monto + deducciones -->
           <div class="col-span-12 md:col-span-2 text-left">
-            <h4 class="text-sm font-semibold leading-2">{{ toCOP(tx.amount) }}</h4>
+            <h4 class="text-sm font-semibold leading-2">{{ setToCOP(tx.amount) }}</h4>
             @for (d of tx.deductions; track idx; let idx = $index, e = $even) {
             <span class="text-[0.6875rem] text-slate-400">{{ d.label }}</span>
-            <p class="text-[0.6875rem] text-rose-500">- {{ toCOP(d.value) }}</p>
+            <p class="text-[0.6875rem] text-rose-500">- {{ setToCOP(d.value) }}</p>
             }
           </div>
         </article>
 
         } @empty {
-          <div class="w-full flex justify-center items-center px-4 py-8">
-            <h3 class="text-xl text-center text-slate-500 montserrat-semiBold">No hay resultados para tu búsqueda</h3>
+        @if (loading()) {
+        @for (item of [1,2,3,4,5,6,7,8,9,10]; track id; let id = $index, e = $even; let first = $first) {
+        <div class="flex gap-4 mb-4" [class.pt-4]="first">
+          @for (d of [1,2,3,4,5]; track id; let id = $index, e = $even) {
+          <div [id]="d" class="w-full grid grid-cols-[repeat(auto-fit,minmax(min(10px,100%),1fr))] gap-4" >
+            <p-skeleton />
           </div>
+          }
+        </div>
+        }
+        } @else {
+        <div class="w-full flex justify-center items-center px-4 py-8">
+          <h3 class="text-xl text-center text-slate-500 montserrat-semiBold">No hay resultados para tu búsqueda</h3>
+        </div>
+        }
         }
       </div>
     </body>
@@ -105,9 +102,12 @@
   <div class="flex items-center gap-2">
     <span class="text-xs px-2 py-0.5 rounded-full ring-1 ring-slate-200 bg-slate-50 capitalize">{{
       method.brand
-    }}</span>
+      }}</span>
     @if (method.last4) {
     <span class="text-xs text-slate-500">•••• {{ method.last4 }}</span>
     }
   </div>
 </ng-template>
+
+
+<b-drawer-details [visible]="drawerVisible()" (visibleChange)="updateVisible($event)" [params]="drawerParams()" ></b-drawer-details>

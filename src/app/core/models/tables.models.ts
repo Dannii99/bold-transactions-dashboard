@@ -3,16 +3,17 @@ export interface Deduction {
   value: number;
 }
 export interface Method {
-  brand: 'visa' | 'mastercard' | 'pse' | 'amex' | 'nequi' | 'other';
+  brand: any;
   last4?: string; // para tarjetas
 }
 export interface Tx {
   status: 'success' | 'failed';
-  date: string; // ISO (e.g., '2024-06-14T16:16:00')
+  date: string;
   method: Method;
-  boldId: string; // ID transacción Bold
-  amount: number; // monto total (positivo)
-  deductions?: Deduction[]; // valores a restar (positivos); se muestran en rojo
+  boldId: string;
+  amount: number;
+  salesType: string;
+  deductions: Deduction[];
 }
 export interface LabelTx {
   name: string;

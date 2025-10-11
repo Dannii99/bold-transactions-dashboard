@@ -12,6 +12,9 @@ import { ButtonExtension } from '@shared/components/ui/button-extension/button-e
 import { State } from '@core/models/stateOptions.models';
 import { DashboardService } from './services/dashboard-service';
 import { PaymentMethod } from '@core/models/BtnExtension.models';
+import { SkeletonModule } from 'primeng/skeleton';
+import { toCOP } from '@core/functions';
+import { StatesService } from '@core/services/states.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +27,7 @@ import { PaymentMethod } from '@core/models/BtnExtension.models';
     ReactiveFormsModule,
     TableList,
     ButtonExtension,
+    SkeletonModule,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
@@ -31,17 +35,64 @@ import { PaymentMethod } from '@core/models/BtnExtension.models';
 })
 export class Dashboard implements OnInit {
   private dashboardService = inject(DashboardService);
+  private statesService = inject(StatesService);
+  private isInitialized = false;
 
   constructor() {
+    // Cargar datos guardados solo una vez
+    const saved: any = this.statesService.loadFilter();
+    if (saved && Object.keys(saved).length) {
+      this.state.set(saved.state);
+    }
+
+    // Ahora marcamos que ya inicializó
+    this.isInitialized = true;
+
+    // Effect para guardar solo si ya está inicializado
     effect(() => {
-      this.paymentFilters.update((prev) => {
-        return { state: this.dateRange(), payment: { ...prev.payment } };
-      });
+      if (!this.isInitialized) return;
+
+      this.paymentFilters.update((prev) => ({
+        state: this.dateRange(),
+        payment: { ...prev.payment },
+      }));
+
+      // cargar el filtro guardado (por si el ButtonExtension ya guardó algo)
+      const saved: any = this.statesService.loadFilter();
+
+      // combinar sin borrar lo existente
+      const saveStore = {
+        ...saved,
+        state: this.state(),
+        payment: {
+          ...saved?.payment,
+          ...this.paymentFilters().payment,
+        },
+      };
+
+      this.statesService.saveFilter(saveStore);
     });
   }
 
-  // currency
-  currency = signal<string | null>('9,1233,950');
+  // - loading _____________________________
+
+  loading = signal<boolean>(false);
+
+  // - search _____________________________
+
+  search = signal('');
+
+  // - currency ___________________________
+
+  currency = signal<number>(0);
+
+  updateTotal(value: number) {
+    this.currency.set(value);
+  }
+
+  setToCOP(value: number): string {
+    return toCOP(value);
+  }
 
   // - State ___________________________
 
@@ -86,8 +137,8 @@ export class Dashboard implements OnInit {
 
       // Esta semana
       case 2: {
-        const day = today.getDay(); // 0=domingo
-        const diffToMonday = (day + 6) % 7; // distancia a lunes
+        const day = today.getDay();
+        const diffToMonday = (day + 6) % 7;
         const monday = new Date(today);
         monday.setDate(today.getDate() - diffToMonday);
 
@@ -109,7 +160,6 @@ export class Dashboard implements OnInit {
         return '';
     }
   });
-
 
   // Rango de fechas real para filtrar
   dateRange = computed(() => {
@@ -199,10 +249,16 @@ export class Dashboard implements OnInit {
   }
 
   loadTransactions() {
+    this.loading.set(true);
     this.dashboardService.getTransactions().subscribe({
       next: (value) => {
         this.txs.set(value);
-        // console.log('Tabla: ', value);
+      },
+      error: () => {
+        this.loading.set(false);
+      },
+      complete: () => {
+        this.loading.set(false);
       },
     });
   }
