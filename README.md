@@ -1,6 +1,36 @@
-# BoldTransactionsDashboard
+# 💳 Bold Transactions Dashboard
+
+Panel de control para visualizar y filtrar transacciones.  
+Construido con **Angular 20**, **PrimeNG 20** y **Tailwind CSS**.
+
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
+
+---
+
+## 🚀 Demo en Producción
+👉 [Ver en Vercel](https://bold-transactions-dashboard.vercel.app/#/dashboard)
+
+---
+
+## 🧠 Repositorio
+📦 [GitHub - bold-transactions-dashboard](https://github.com/Dannii99/bold-transactions-dashboard)
+
+---
+
+## 🧩 Instrucciones para ejecutar localmente
+
+1. **Clonar el repositorio**
+   ```bash
+   git clone https://github.com/Dannii99/bold-transactions-dashboard.git
+   cd bold-transactions-dashboard
+
+### 🧪 Tests
+Se implementó una estrategia de **Unit Testing** utilizando **Jasmine y Karma**,
+Para ejecutar los tests:
+```bash
+ng test
+
 
 ## Development server
 
