@@ -24,13 +24,9 @@ export class DashboardService extends Base {
 
 
   private transformTransactions(data: ApiTx[]): Tx[] {
-    //console.log('DATA ORIGINAL: ', data);
-
     // Verifica si data es un array
     if (!Array.isArray(data)) {
       console.error('Data is not an array:', data);
-      // Si la data viene dentro de un objeto, ajusta aquí:
-      // data = data.data; // o data.transactions, etc.
       return [];
     }
 
@@ -56,14 +52,6 @@ export class DashboardService extends Base {
   // Método auxiliar para mapear payment methods
   private mapPaymentMethod(method: string): any {
     const methodLower = method.toLowerCase();
-
-    if (methodLower.includes('visa')) return 'visa';
-    if (methodLower.includes('mastercard')) return 'mastercard';
-    if (methodLower.includes('pse')) return 'pse';
-    if (methodLower.includes('amex')) return 'amex';
-    if (methodLower.includes('nequi')) return 'nequi';
-    if (methodLower.includes('DAVIPLATA')) return 'nequi';
-
     return methodLower;
   }
 }

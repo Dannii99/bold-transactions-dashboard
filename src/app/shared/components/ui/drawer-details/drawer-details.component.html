@@ -1,0 +1,76 @@
+<p-drawer [(visible)]="isVisible" (visibleChange)="close($event)" header=" " position="right" styleClass="w-full sm:!w-[26rem]">
+    <div class="w-full py-4 font-sans text-gray-800">
+        <!-- Header -->
+        <div class="flex flex-col items-center text-center mb-6">
+            @if (params().status === 'success') {
+                <div class="flex items-center justify-center w-9 h-9 rounded-full bg-green-200 mb-3">
+                    <ng-icon name="bootstrapCheck" class="!text-4xl !text-white !font-bold"></ng-icon>
+                </div>
+            }@else {
+                <div class="flex items-center justify-center w-9 h-9 rounded-full bg-red-200 mb-3">
+                    <ng-icon name="bootstrapX" class="!text-4xl !text-white !font-bold"></ng-icon>
+                </div>
+            }
+            <h2 class="text-lg montserrat-bold text-black">{{params().status === 'success' ? '¡Cobro exitoso!' : '¡Cobro no realizado!' }}</h2>
+            <p class="text-3xl montserrat-semiBold text-[var(--b-text-color)]">{{setToCOP(params().amount)}}</p>
+            <p class="text-sm text-gray-500"> {{ setFormatDateTime(params().date) }}</p>
+        </div>
+
+        <div class="w-full grid grid-cols-1 gap-3 pt-12">
+            <!-- ID transacción -->
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-400">ID transacción Bold</span>
+                <span class="text-black montserrat-bold">GZENUBIIRFKCI</span>
+            </div>
+
+            <!-- Deducción -->
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-400">Deducción Bold</span>
+                <span class="font-medium text-red-500"> - {{ params().deductions.length > 0 ? setToCOP(params().deductions[0].value) : setToCOP(0) }}</span>
+            </div>
+
+            <div class="border-b border-solid border-gray-950"></div>
+
+            <!-- Método de pago -->
+            <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-400">Método de pago</span>
+                <div class="flex items-center gap-2 font-medium">
+                    <ng-container [ngTemplateOutlet]="methodBadge"
+                        [ngTemplateOutletContext]="{ method: params().method }"></ng-container>
+                </div>
+            </div>
+
+            <!-- Tipo de pago -->
+            <div class="flex justify-between items-center py-3 text-sm">
+                <span class="text-gray-400 flex items-center gap-1">
+                    <i class="pi pi-link text-gray-500"></i>
+                    Tipo de pago
+                </span>
+
+
+                <span class="flex font-medium text-[var(--b-primary-color)]">
+                    @if (params().salesType === 'PAYMENT_LINK') {
+                    <ng-icon name="bootstrapLink45deg" class="text-xl mr-3"></ng-icon>
+                    } @else {
+                    <ng-icon name="matTapAndPlayOutline" class="text-xl mr-3"></ng-icon>
+                    }
+                    {{params().salesType === 'PAYMENT_LINK' ? 'Link de pago' : 'Datáfono'}}
+                </span>
+            </div>
+        </div>
+    </div>
+</p-drawer>
+
+
+<!-- Templates auxiliares -->
+<ng-template #methodBadge let-method="method">
+    <div class="flex items-center gap-2">
+        <span class="text-xs px-2 py-0.5 rounded-full ring-1 ring-slate-200 bg-slate-50 capitalize">
+            {{
+            method.brand
+            }}</span>
+        @if (method.last4) {
+        <span class="text-xs text-slate-500">•••• {{ method.last4 }}</span>
+        }
+    </div>
+</ng-template>
