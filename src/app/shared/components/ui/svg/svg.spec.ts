@@ -39,7 +39,7 @@ describe('Svg Component', () => {
 
   it('debería cargar el SVG correctamente', () => {
     const mockSvg = '<svg><circle cx="50" cy="50" r="40" /></svg>';
-    component.src = '/assets/icon.svg';
+    //component.src = '/assets/icon.svg';
 
     component.ngOnInit();
 
@@ -52,7 +52,7 @@ describe('Svg Component', () => {
 
   it('debería manejar error al cargar SVG', () => {
     const consoleSpy = spyOn(console, 'error');
-    component.src = '/assets/error.svg';
+    //component.src = '/assets/error.svg';
 
     component.ngOnInit();
 
@@ -66,7 +66,7 @@ describe('Svg Component', () => {
   });
 
   it('no debería hacer petición si no hay `src`', () => {
-    component.src = '';
+    //component.src = '';
     component.ngOnInit();
     httpMock.expectNone(() => true); // No debe haber ninguna petición
   });

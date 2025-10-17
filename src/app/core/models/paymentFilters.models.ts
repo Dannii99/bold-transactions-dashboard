@@ -2,18 +2,18 @@ export interface PaymentMethod {
   name: string;
   key: string;
   disabled?: boolean
-}[]
+}
 
 export interface PaymentOption {
   name: string;
   key: string;
   selected?: boolean;
-  Selectedcheck?:PaymentOption,
+  selectedcheck?:PaymentOption,
 }
 
 export interface BaseFilters<TState> {
   state: TState;
- payment?: Record<string, PaymentOption | PaymentOption[]> | Record<string, never>;
+  payment?: Record<string, PaymentOption | PaymentOption[]> | Record<string, never>;
 }
 
 export type PaymentFilters = BaseFilters<number>;

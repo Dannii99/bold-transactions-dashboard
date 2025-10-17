@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
@@ -9,15 +9,15 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrl: './svg.scss'
 })
 export class Svg {
-  @Input() src: string = ''; // Ruta relativa a la carpeta public
+  src = input<string>(''); // Ruta relativa a la carpeta public
 
   svgSafe: SafeHtml | null = null;
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    if (this.src) {
-      this.http.get(this.src, { responseType: 'text' }).subscribe({
+    if (this.src()) {
+      this.http.get(this.src(), { responseType: 'text' }).subscribe({
         next: (svgContent) => {
           this.svgSafe = this.sanitizer.bypassSecurityTrustHtml(svgContent);
         },

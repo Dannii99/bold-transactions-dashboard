@@ -11,10 +11,23 @@ import { LabelTx, Tx } from '@core/models/tables.models';
 import { ButtonExtension } from '@shared/components/ui/button-extension/button-extension';
 import { State } from '@core/models/stateOptions.models';
 import { DashboardService } from './services/dashboard-service';
-import { ExternalFilters, PaymentFilters, PaymentMethod } from '@core/models/BtnExtension.models';
+import {
+  ExternalFilters,
+  PaymentFilters,
+  PaymentMethod,
+  PaymentOption,
+} from '@core/models/paymentFilters.models';
 import { SkeletonModule } from 'primeng/skeleton';
 import { toCOP } from '@core/functions';
 import { StatesService } from '@core/services/states.service';
+import { CopPipe } from '@shared/pipes/cop.pipe';
+
+
+enum Status {
+  Hoy = 1,
+  Semana = 2,
+  Mes = 3,
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -28,12 +41,14 @@ import { StatesService } from '@core/services/states.service';
     TableList,
     ButtonExtension,
     SkeletonModule,
+    CopPipe
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
   viewProviders: [provideIcons({ bootstrapInfoCircle, saxSetting4Outline })],
 })
 export class Dashboard implements OnInit {
+  
   private dashboardService = inject(DashboardService);
   private statesService = inject(StatesService);
   private isInitialized = false;
@@ -87,7 +102,7 @@ export class Dashboard implements OnInit {
 
   // - search _____________________________
 
-  search = signal('');
+  search = signal<string>('');
 
   // - currency ___________________________
 
@@ -130,6 +145,8 @@ export class Dashboard implements OnInit {
     return state ? state.label.toLowerCase() : 'N/A';
   });
 
+
+
   // Signal para el título formateado según la selección
   dateCard = computed(() => {
     const today = new Date();
@@ -139,11 +156,11 @@ export class Dashboard implements OnInit {
 
     switch (this.state()) {
       // Hoy
-      case 1:
+      case Status.Hoy:
         return `${today.getDate()} de ${capitalizedMonth} ${year}`;
 
       // Esta semana
-      case 2: {
+      case Status.Semana: {
         const day = today.getDay();
         const diffToMonday = (day + 6) % 7;
         const monday = new Date(today);
@@ -160,7 +177,7 @@ export class Dashboard implements OnInit {
       }
 
       // Mes actual
-      case 3:
+      case Status.Mes:
         return `${this.currentMonth()}, ${year}`;
 
       default:
@@ -217,10 +234,15 @@ export class Dashboard implements OnInit {
     payment: {},
   });
 
-  onFilterChange(updated: Partial<ExternalFilters['payment']>) {
+  onFilterChange(updated: PaymentMethod | PaymentMethod[]) {
+    // Transformamos el tipo recibido al formato que espera paymentFilters
+    const formatted = {
+      Selectedcheck: Array.isArray(updated) ? updated : [updated],
+    } as Record<string, PaymentOption | PaymentOption[]>;
+
     this.paymentFilters.update(() => ({
       state: this.dateRange(),
-      payment: { ...updated },
+      payment: { ...formatted },
     }));
   }
 

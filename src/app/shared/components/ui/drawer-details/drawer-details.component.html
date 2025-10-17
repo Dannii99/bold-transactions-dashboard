@@ -12,7 +12,7 @@
                 </div>
             }
             <h2 class="text-lg montserrat-bold text-black">{{params().status === 'success' ? '¡Cobro exitoso!' : '¡Cobro no realizado!' }}</h2>
-            <p class="text-3xl montserrat-semiBold text-[var(--b-text-color)]">{{setToCOP(params().amount)}}</p>
+            <p class="text-3xl montserrat-semiBold text-[var(--b-text-color)]">{{ params().amount | cop}}</p>
             <p class="text-sm text-gray-500"> {{ setFormatDateTime(params().date) }}</p>
         </div>
 
@@ -26,7 +26,7 @@
             <!-- Deducción -->
             <div class="flex justify-between text-sm">
                 <span class="text-gray-400">Deducción Bold</span>
-                <span class="font-medium text-red-500"> - {{ params().deductions.length > 0 ? setToCOP(params().deductions[0].value) : setToCOP(0) }}</span>
+                <span class="font-medium text-red-500"> - {{ params().deductions.length > 0 ? (params().deductions[0].value | cop) : (0 | cop) }}</span>
             </div>
 
             <div class="border-b border-solid border-gray-950"></div>

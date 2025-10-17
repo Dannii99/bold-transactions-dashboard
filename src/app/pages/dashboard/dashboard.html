@@ -16,7 +16,7 @@
             <p
               class="montserrat-bold text-3xl mb-5 bg-[linear-gradient(270deg,var(--b-highlight-bg)_0%,var(--b-primary-color)_130%)] bg-clip-text text-transparent"
             >
-            {{ setToCOP(currency())}}
+            {{ currency() | cop }}
           </p>
           } @else {
             <div class="w-2/3 mb-5">

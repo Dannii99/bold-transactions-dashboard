@@ -1,7 +1,7 @@
 <ng-container>
   <!-- Botón -->
   <button #butonFilter class="hidden absolute left-0 top-0 w-0 h-0" (click)="append()">
-    {{title}}
+    {{title()}}
   </button>
 
   <!-- Panel expandible -->
@@ -15,7 +15,7 @@
         class="flex justify-between items-center montserrat-regular absolute z-10 transition-all duration-200 ease-in-out w-full bg-white toggleClose"
         [ngClass]="isOpen() ? ' opacity-100' : 'opacity-0'"
       >
-        <p class="text-base flex-1 text-center">{{title}}</p>
+        <p class="text-base flex-1 text-center">{{title()}}</p>
         <ng-icon
           name="ionClose"
           class="text-xl text-white ml-2 cursor-pointer"
@@ -26,7 +26,7 @@
 
       @if (!isOpen()) {
       <div class="flex justify-end items-center montserrat-bold">
-        <p class="text-base ml-6">{{title}}</p>
+        <p class="text-base ml-6">{{title()}}</p>
         <ng-icon name="saxSetting4Outline" class="text-base text-white ml-2 mr-2"></ng-icon>
       </div>
       }
@@ -35,9 +35,9 @@
       class="pt-6 px-1 transition-all duration-500 ease-in-out flex flex-col gap-2"
       [ngClass]="isOpen() ? 'delay-[250ms] opacity-100 mt-6' : 'opacity-0'"
     >
-      @if (isOpen()) { @for (item of checkFilter; track idx; let idx = $index, e = $even) {
+      @if (isOpen()) { @for (item of checkFilter(); track idx; let idx = $index, e = $even) {
       <div class="flex items-center gap-2">
-        <p-checkbox [inputId]="item.key" name="group" [value]="item" [(ngModel)]="Selectedcheck" [disabled]="item.disabled ?? false" (onChange)="onCheckChange(item)" />
+        <p-checkbox [inputId]="item.key" name="group" [value]="item" [(ngModel)]="selectedcheck" [disabled]="item.disabled ?? false" (onChange)="onCheckChange(item)" />
         <label [for]="item.key" class="ml-2 text-sm montserrat-semiBol font-semibold">
           {{ item.name }}
         </label>

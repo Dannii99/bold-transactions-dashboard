@@ -15,7 +15,7 @@ export interface Tx {
   amount: number;
   salesType: string;
   deductions: Deduction[];
-}
+}[]
 
 export interface LabelTx {
   name: string;
