@@ -69,8 +69,6 @@ export class ButtonExtension {
   // - payment method ________________________________
 
   onCheckChange(item: PaymentMethod) {
-    console.log('item:: ', item);
-
     const isAll = item.key === 'TODOS';
     const allItem = this.checkFilter.find((i) => i.key === 'TODOS');
 
