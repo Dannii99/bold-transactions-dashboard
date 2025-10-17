@@ -11,7 +11,7 @@ import { LabelTx, Tx } from '@core/models/tables.models';
 import { ButtonExtension } from '@shared/components/ui/button-extension/button-extension';
 import { State } from '@core/models/stateOptions.models';
 import { DashboardService } from './services/dashboard-service';
-import { PaymentMethod } from '@core/models/BtnExtension.models';
+import { ExternalFilters, PaymentFilters, PaymentMethod } from '@core/models/BtnExtension.models';
 import { SkeletonModule } from 'primeng/skeleton';
 import { toCOP } from '@core/functions';
 import { StatesService } from '@core/services/states.service';
@@ -39,8 +39,12 @@ export class Dashboard implements OnInit {
   private isInitialized = false;
 
   constructor() {
-    // Cargar datos guardados solo una vez
-    const saved: any = this.statesService.loadFilter();
+    // cargar el filtro guardado (por si el ButtonExtension ya guardó algo)
+    const saved: PaymentFilters = {
+      state: 1,
+      ...(this.statesService.loadFilter() ?? {}),
+    };
+
     if (saved && Object.keys(saved).length) {
       this.state.set(saved.state);
     }
@@ -58,14 +62,17 @@ export class Dashboard implements OnInit {
       }));
 
       // cargar el filtro guardado (por si el ButtonExtension ya guardó algo)
-      const saved: any = this.statesService.loadFilter();
+      const savedReactive: PaymentFilters = {
+        state: 1,
+        ...(this.statesService.loadFilter() ?? {}),
+      };
 
       // combinar sin borrar lo existente
-      const saveStore = {
-        ...saved,
+      const saveStore: PaymentFilters = {
+        ...savedReactive,
         state: this.state(),
         payment: {
-          ...saved?.payment,
+          ...savedReactive?.payment,
           ...this.paymentFilters().payment,
         },
       };
@@ -102,7 +109,7 @@ export class Dashboard implements OnInit {
     { label: 'N/A', value: 3 },
   ]);
 
-  state = signal<number | null>(1);
+  state = signal<number>(1);
 
   // Signal computada que genera el mes actual
   private currentMonth = computed(() => {
@@ -194,11 +201,10 @@ export class Dashboard implements OnInit {
       return { start: firstDay, end: lastDay };
     }
 
-    return null;
+    return { start: '', end: '' };
   });
 
   // - Button filter __________________
-
   titleFilter: string = 'Filtrar';
   paymentMethod: PaymentMethod[] = [
     { name: 'Cobro con datáfono', key: 'TERMINAL' },
@@ -206,11 +212,16 @@ export class Dashboard implements OnInit {
     { name: 'Ver todos', key: 'TODOS' },
   ];
 
-  paymentFilters = signal<any>([]);
-  onFilterChange(updated: Partial<typeof this.paymentFilters>) {
-    this.paymentFilters.update((prev) => {
-      return { state: this.dateRange(), payment: { ...updated } };
-    });
+  paymentFilters = signal<ExternalFilters>({
+    state: { start: '', end: '' },
+    payment: {},
+  });
+
+  onFilterChange(updated: Partial<ExternalFilters['payment']>) {
+    this.paymentFilters.update(() => ({
+      state: this.dateRange(),
+      payment: { ...updated },
+    }));
   }
 
   // - Table _________________________________

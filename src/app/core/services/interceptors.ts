@@ -11,11 +11,13 @@ import {
   providedIn: 'root',
 })
 export class Interceptors {
+
   private cancelRequests = new Subject<void>();
 
-  private requests: any[] = [];
+  private requests: HttpRequest<unknown>[] = [];
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+
     this.requests.push(req);
 
     let headers = req.headers;

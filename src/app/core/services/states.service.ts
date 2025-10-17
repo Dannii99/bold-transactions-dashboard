@@ -6,11 +6,11 @@ import { Injectable } from '@angular/core';
 export class StatesService {
   private key = 'filter';
 
-  saveFilter(values: any) {
+  saveFilter<T>(values: T): void {
     localStorage.setItem(this.key, JSON.stringify(values));
   }
 
-  loadFilter(): any {
+  loadFilter(): object {
     const saved = localStorage.getItem(this.key);
     return saved ? JSON.parse(saved) : {};
   }

@@ -23,7 +23,7 @@ export class DrawerDetailsComponent {
 
   @Output() visibleChange = new EventEmitter<boolean>();
 
-  close(event: any) {
+  close(event: boolean) {
     this.visibleChange.emit(event);
   }
 

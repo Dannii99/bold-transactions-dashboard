@@ -1,16 +1,21 @@
 export interface PaymentMethod {
   name: string;
   key: string;
+  disabled?: boolean
 }[]
-
 
 export interface PaymentOption {
   name: string;
   key: string;
   selected?: boolean;
+  Selectedcheck?:PaymentOption,
 }
 
-export interface ExternalFilters {
-  state?: { start: string; end: string };
-  payment?: Record<string, PaymentOption>;
+export interface BaseFilters<TState> {
+  state: TState;
+ payment?: Record<string, PaymentOption | PaymentOption[]> | Record<string, never>;
 }
+
+export type PaymentFilters = BaseFilters<number>;
+
+export type ExternalFilters = BaseFilters<{ start: string | Date; end: string | Date }>;

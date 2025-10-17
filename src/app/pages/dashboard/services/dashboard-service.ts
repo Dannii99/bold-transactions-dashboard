@@ -50,7 +50,7 @@ export class DashboardService extends Base {
   }
 
   // Método auxiliar para mapear payment methods
-  private mapPaymentMethod(method: string): any {
+  private mapPaymentMethod(method: string): string {
     const methodLower = method.toLowerCase();
     return methodLower;
   }

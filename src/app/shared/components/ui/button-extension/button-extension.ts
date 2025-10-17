@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PaymentFilters, PaymentMethod } from '@core/models/BtnExtension.models';
 import { StatesService } from '@core/services/states.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { saxSetting4Outline } from '@ng-icons/iconsax/outline';
@@ -25,8 +26,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 })
 export class ButtonExtension {
   @Input() title: String = 'Filtrar';
-  @Input() checkFilter: any[] = [];
-  Selectedcheck: any[] = [];
+  @Input() checkFilter: PaymentMethod[] = [];
+  Selectedcheck: PaymentMethod[] = [];
   isOpen = signal(false);
 
   @Output() filterChange = new EventEmitter();
@@ -42,31 +43,34 @@ export class ButtonExtension {
     }
   }
 
-ngOnInit() {
-  const saved: any = this.statesService.loadFilter();
+  ngOnInit() {
+    const saved: PaymentFilters = {
+      state: 1,
+      ...(this.statesService.loadFilter() ?? {}),
+    };
 
-  if (saved?.payment?.Selectedcheck?.length) {
-    // 🔹 Buscar los objetos reales de checkFilter
-    this.Selectedcheck = this.checkFilter.filter((i) =>
-      saved.payment.Selectedcheck.some((s: any) => s.key === i.key)
-    );
+    if (Array.isArray(saved?.payment?.['Selectedcheck']) && saved.payment['Selectedcheck'].length) {
+      // 🔹 Buscar los objetos reales de checkFilter
+      this.Selectedcheck = this.checkFilter.filter((i) =>
+        (saved?.payment?.['Selectedcheck'] as Array<{ key: string }>).some((s) => s.key === i.key)
+      );
 
-    console.log('Selectedcheck restaurados:', this.Selectedcheck);
-
-    // 🔹 Reactivar los disabled si "TODOS" está marcado
-    const allItem = this.checkFilter.find((i) => i.key === 'TODOS');
-    if (this.Selectedcheck.some((c) => c.key === 'TODOS') && allItem) {
-      this.checkFilter.forEach((i) => {
-        if (i.key !== 'TODOS') i.disabled = true;
-      });
+      // 🔹 Reactivar los disabled si "TODOS" está marcado
+      const allItem = this.checkFilter.find((i) => i.key === 'TODOS');
+      if (this.Selectedcheck.some((c) => c.key === 'TODOS') && allItem) {
+        this.checkFilter.forEach((i) => {
+          if (i.key !== 'TODOS') i.disabled = true;
+        });
+      }
     }
+    this.filterChange.emit(this.Selectedcheck);
   }
-  this.filterChange.emit(this.Selectedcheck);
-}
 
   // - payment method ________________________________
 
-  onCheckChange(item: any) {
+  onCheckChange(item: PaymentMethod) {
+    console.log('item:: ', item);
+
     const isAll = item.key === 'TODOS';
     const allItem = this.checkFilter.find((i) => i.key === 'TODOS');
 
@@ -111,8 +115,12 @@ ngOnInit() {
     // emitir el filtro al padre
     this.filterChange.emit(this.Selectedcheck);
 
-    // 🧠 guardar en localStorage (sin tocar lo demás del filtro)
-    const saved: any = this.statesService.loadFilter();
+    // guardar en localStorage (sin tocar lo demás del filtro)
+    const saved: PaymentFilters = {
+      state: 1,
+      ...(this.statesService.loadFilter() ?? {}),
+    };
+
     const newFilter = {
       ...saved,
       payment: {

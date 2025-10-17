@@ -3,9 +3,10 @@ export interface Deduction {
   value: number;
 }
 export interface Method {
-  brand: any;
+  brand: string;
   last4?: string; // para tarjetas
 }
+
 export interface Tx {
   status: 'success' | 'failed';
   date: string;
@@ -15,6 +16,7 @@ export interface Tx {
   salesType: string;
   deductions: Deduction[];
 }
+
 export interface LabelTx {
   name: string;
   class?: string;
