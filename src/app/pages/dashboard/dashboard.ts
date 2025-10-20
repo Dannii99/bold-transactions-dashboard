@@ -48,7 +48,7 @@ enum Status {
   viewProviders: [provideIcons({ bootstrapInfoCircle, saxSetting4Outline })],
 })
 export class Dashboard implements OnInit {
-  
+
   private dashboardService = inject(DashboardService);
   private statesService = inject(StatesService);
   private isInitialized = false;
@@ -283,7 +283,18 @@ export class Dashboard implements OnInit {
 
   loadTransactions() {
     this.loading.set(true);
-    this.dashboardService.getTransactions().subscribe({
+/*     this.dashboardService.getTransactions().subscribe({
+      next: (value) => {
+        this.txs.set(value);
+      },
+      error: () => {
+        this.loading.set(false);
+      },
+      complete: () => {
+        this.loading.set(false);
+      },
+    }); */
+    this.dashboardService.getTransactionsLocal().subscribe({
       next: (value) => {
         this.txs.set(value);
       },

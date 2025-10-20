@@ -18,6 +18,7 @@ import { DrawerDetailsComponent } from '../drawer-details/drawer-details.compone
 import { formatDateTime } from '@core/functions/formatDate.functions';
 import { ExternalFilters, PaymentMethod, PaymentOption } from '@core/models/paymentFilters.models';
 import { CopPipe } from '@shared/pipes/cop.pipe';
+import { TagPayments } from '../tag-payments/tag-payments';
 
 @Component({
   selector: 'b-table-list',
@@ -33,8 +34,9 @@ import { CopPipe } from '@shared/pipes/cop.pipe';
     KeyFilterModule,
     NgIcon,
     SkeletonModule,
+    TagPayments,
     DrawerDetailsComponent,
-    CopPipe
+    CopPipe,
   ],
   templateUrl: './table-list.html',
   styleUrl: './table-list.scss',

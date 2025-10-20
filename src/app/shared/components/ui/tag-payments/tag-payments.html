@@ -1,0 +1,11 @@
+<div class="flex items-center gap-2">
+  <img [src]="iconMethod(method().brand, method().franchise)" alt="method" width="20">
+  <span class="text-xs capitalize ml-1">
+    @if(method().brand != "card") {
+      {{ method().brand }}
+    }
+  </span>
+  @if (method().last4) {
+  <span class="text-xs text-slate-500">•••• {{ method().last4 }}</span>
+  }
+</div>

@@ -1,0 +1,33 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin shadow($opacity: 0.25) {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, $opacity);
+}
+
+
+@mixin truncate($lines: 1) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@mixin respond($break) {
+  @if $break == xs {
+    @media screen and (max-width: 640px) { @content; }
+  } @else if $break == sm {
+    @media screen and  (min-width: 640px) { @content; }
+  } @else if $break == md {
+    @media screen and  (min-width: 768px) { @content; }
+  } @else if $break == lg {
+    @media screen and  (min-width: 1024px) { @content; }
+  } @else if $break == xl {
+    @media screen and  (min-width: 1280px) { @content; }
+  } @else if $break == 2xl {
+    @media screen and  (min-width: 1536px) { @content; }
+  }
+}

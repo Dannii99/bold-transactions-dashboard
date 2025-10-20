@@ -13,14 +13,12 @@ export class Base {
 
   private http = inject(HttpClient);
 
-  protected baseUrl = env.url;
-
   cancelAllHttpRequest() {
     this.ngUnsubscribe.next();
   }
 
   protected _get<T>(url: string, params?: HttpParams | Record<string, string>): Observable<T> {
-    return this.http.get<T>(`${this.baseUrl}${url}`, { params }).pipe(
+    return this.http.get<T>(`${url}`, { params }).pipe(
       tap((response: T) => {}),
       takeUntil(this.ngUnsubscribe),
       catchError((error: HttpErrorResponse) => throwError(() => error))

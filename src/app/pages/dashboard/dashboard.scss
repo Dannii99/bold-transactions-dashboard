@@ -1,3 +1,5 @@
+@use '../../styles/utils/mixins' as *;
+
 :host ::ng-deep {
   .my-custom-selectbutton.p-togglebutton {
     background: #fff !important;
@@ -6,9 +8,11 @@
     border: 0 !important;
     min-height: 4rem;
     color: var(--b-primary-color);
-    @media screen and (min-width: 640px) {
+    @include respond(sm) {
       min-height: 3.6rem;
     }
+
+
     &.p-togglebutton-checked  .p-togglebutton-content {
       background: #f2f2f2 !important;
       border-radius: 6.25rem;

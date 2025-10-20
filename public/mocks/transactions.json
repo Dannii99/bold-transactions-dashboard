@@ -1,0 +1,956 @@
+{
+    "data": [
+        {
+            "id": "GZEN01SJV869U",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469453,
+            "transactionReference": 8042,
+            "amount": 1488788,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZENGST8AU8NN",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 9643,
+            "amount": 2648214,
+            "deduction": 235394,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZEN5XC8C6HEP",
+            "status": "REJECTED",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1759968000000,
+            "transactionReference": 9441,
+            "amount": 2428835
+        },
+        {
+            "id": "GZENL1NN5Q5NK",
+            "status": "REJECTED",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469476,
+            "transactionReference": 7193,
+            "amount": 6434906,
+            "deduction": 386635,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZEN9F2V2P2OQ",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469476,
+            "transactionReference": 3568,
+            "amount": 7800121,
+            "deduction": 500624
+        },
+        {
+            "id": "GZENON2910WL3",
+            "status": "REJECTED",
+            "paymentMethod": "NEQUI",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469476,
+            "transactionReference": 6326,
+            "amount": 9522552,
+            "deduction": 1045538
+        },
+        {
+            "id": "GZENJHREU2GS5",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469476,
+            "transactionReference": 2650,
+            "amount": 7394802
+        },
+        {
+            "id": "GZEN063LYKQ9R",
+            "status": "REJECTED",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469476,
+            "transactionReference": 5668,
+            "amount": 8204386,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZENHC0LAGKCJ",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 3832,
+            "amount": 4864964,
+            "deduction": 152348,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZENYWX576YBI",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469476,
+            "transactionReference": 7222,
+            "amount": 1402188,
+            "deduction": 87868
+        },
+        {
+            "id": "GZEN2UFUDIGWJ",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1759622400000,
+            "transactionReference": 2430,
+            "amount": 9141880,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZEN48VARPZUI",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "TERMINAL",
+            "createdAt": 1759536000000,
+            "transactionReference": 6051,
+            "amount": 4793609
+        },
+        {
+            "id": "GZENWJ83AQ0OL",
+            "status": "REJECTED",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 4842,
+            "amount": 2719625,
+            "deduction": 114141
+        },
+        {
+            "id": "GZENQX4XFFD8C",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469476,
+            "transactionReference": 1373,
+            "amount": 2674157
+        },
+        {
+            "id": "GZENYK8TXS7A1",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "TERMINAL",
+            "createdAt": 1759968000000,
+            "transactionReference": 8871,
+            "amount": 8914590
+        },
+        {
+            "id": "GZEN0DCMRHJI7",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469476,
+            "transactionReference": 8446,
+            "amount": 1571560,
+            "deduction": 92342,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZENIR9L6ZFHQ",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469476,
+            "transactionReference": 8306,
+            "amount": 1849027,
+            "deduction": 76847
+        },
+        {
+            "id": "GZENN1X39K9K3",
+            "status": "REJECTED",
+            "paymentMethod": "NEQUI",
+            "salesType": "TERMINAL",
+            "createdAt": 1759363200000,
+            "transactionReference": 7722,
+            "amount": 9234987,
+            "deduction": 1000170
+        },
+        {
+            "id": "GZEN2U2S802UY",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 7210,
+            "amount": 6903451
+        },
+        {
+            "id": "GZENGTJEB1RS5",
+            "status": "REJECTED",
+            "paymentMethod": "PSE",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 3385,
+            "amount": 2524727
+        },
+        {
+            "id": "GZENIOJ43OBQR",
+            "status": "REJECTED",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "TERMINAL",
+            "createdAt": 1759622400000,
+            "transactionReference": 2470,
+            "amount": 144099
+        },
+        {
+            "id": "GZENA1ULKKIZG",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 5181,
+            "amount": 6505513
+        },
+        {
+            "id": "GZENY06QK26J5",
+            "status": "REJECTED",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760054400000,
+            "transactionReference": 9427,
+            "amount": 4495121,
+            "deduction": 51937
+        },
+        {
+            "id": "GZEN6I46WF1KG",
+            "status": "REJECTED",
+            "paymentMethod": "NEQUI",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469476,
+            "transactionReference": 2147,
+            "amount": 2740619,
+            "deduction": 341063
+        },
+        {
+            "id": "GZENWXGQ03NXH",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 4894,
+            "amount": 9592629
+        },
+        {
+            "id": "GZENQ9IBXJYXJ",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469476,
+            "transactionReference": 6297,
+            "amount": 2562445
+        },
+        {
+            "id": "GZENWTYARB3OO",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469476,
+            "transactionReference": 5579,
+            "amount": 2870259
+        },
+        {
+            "id": "GZENPK5LVG4XX",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469476,
+            "transactionReference": 9206,
+            "amount": 750534
+        },
+        {
+            "id": "GZENXK39HMR00",
+            "status": "REJECTED",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1759622400000,
+            "transactionReference": 6761,
+            "amount": 1681499,
+            "deduction": 123664,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZENTJ6IMARSP",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 3963,
+            "amount": 7881898
+        },
+        {
+            "id": "GZENRXKU4NV9F",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469476,
+            "transactionReference": 1404,
+            "amount": 5669777,
+            "deduction": 472273
+        },
+        {
+            "id": "GZENDUBE6Q6AB",
+            "status": "REJECTED",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1759795200000,
+            "transactionReference": 8827,
+            "amount": 3323705,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZEN5W72JYIDR",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469476,
+            "transactionReference": 6457,
+            "amount": 9006530
+        },
+        {
+            "id": "GZENUY2VH9TDT",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469476,
+            "transactionReference": 8379,
+            "amount": 2471871,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZENS5LF9749F",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469476,
+            "transactionReference": 9470,
+            "amount": 5340672,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZENNVDEECWRZ",
+            "status": "REJECTED",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469476,
+            "transactionReference": 3331,
+            "amount": 2382790
+        },
+        {
+            "id": "GZENQYZWZAQ7M",
+            "status": "REJECTED",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469476,
+            "transactionReference": 9580,
+            "amount": 5421475
+        },
+        {
+            "id": "GZENRR7P4XMGO",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1759968000000,
+            "transactionReference": 1422,
+            "amount": 4045996
+        },
+        {
+            "id": "GZEN5AM52QZMV",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469476,
+            "transactionReference": 7359,
+            "amount": 6793623
+        },
+        {
+            "id": "GZENKW997EXQL",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 2732,
+            "amount": 2215891,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZENO4ZAJYY26",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 4088,
+            "amount": 5405335
+        },
+        {
+            "id": "GZEN1YCKRMM5P",
+            "status": "REJECTED",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 4972,
+            "amount": 9309545
+        },
+        {
+            "id": "GZENWAC4R3FIO",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469494,
+            "transactionReference": 1712,
+            "amount": 7917152,
+            "deduction": 524285,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZENUCI5O4T9K",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 3626,
+            "amount": 2919690
+        },
+        {
+            "id": "GZENP5BCX6BYC",
+            "status": "REJECTED",
+            "paymentMethod": "NEQUI",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 6422,
+            "amount": 6452304
+        },
+        {
+            "id": "GZEN83DWPGUUS",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469494,
+            "transactionReference": 3548,
+            "amount": 9406504
+        },
+        {
+            "id": "GZENIUEXSVI80",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 1546,
+            "amount": 1691259
+        },
+        {
+            "id": "GZENDG0OA7RC1",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760054400000,
+            "transactionReference": 4203,
+            "amount": 5467952,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZENX7DH7IJIK",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1759536000000,
+            "transactionReference": 1676,
+            "amount": 9422510
+        },
+        {
+            "id": "GZENDP9DM6GSO",
+            "status": "REJECTED",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469494,
+            "transactionReference": 1310,
+            "amount": 1186204,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZEN1WFL1L5HQ",
+            "status": "REJECTED",
+            "paymentMethod": "CARD",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469494,
+            "transactionReference": 9717,
+            "amount": 1309207,
+            "deduction": 35836,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZENTPCBR7CA9",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "TERMINAL",
+            "createdAt": 1760054400000,
+            "transactionReference": 2326,
+            "amount": 7055356
+        },
+        {
+            "id": "GZEN6JN2PWUR8",
+            "status": "REJECTED",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469494,
+            "transactionReference": 2601,
+            "amount": 4925785,
+            "deduction": 99432,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZEN4LY6M9WLV",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1759449600000,
+            "transactionReference": 7863,
+            "amount": 8613327
+        },
+        {
+            "id": "GZEN1ZY0LHZQM",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469494,
+            "transactionReference": 5413,
+            "amount": 8683828
+        },
+        {
+            "id": "GZEN0DCMVNQI3",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469494,
+            "transactionReference": 3511,
+            "amount": 4711088
+        },
+        {
+            "id": "GZENJTPONRHAI",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 2456,
+            "amount": 1942673
+        },
+        {
+            "id": "GZEN02NU5XG69",
+            "status": "REJECTED",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1759881600000,
+            "transactionReference": 8620,
+            "amount": 1893297,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZENZ0SKYWJ72",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1759276800000,
+            "transactionReference": 7608,
+            "amount": 8675425,
+            "deduction": 7987
+        },
+        {
+            "id": "GZENZDXLMCMQ1",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "TERMINAL",
+            "createdAt": 1760054400000,
+            "transactionReference": 2892,
+            "amount": 3970179
+        },
+        {
+            "id": "GZEN68MM81CI6",
+            "status": "REJECTED",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760054400000,
+            "transactionReference": 3220,
+            "amount": 4236376,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZENQVIE26TEN",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469494,
+            "transactionReference": 9753,
+            "amount": 5888482
+        },
+        {
+            "id": "GZENSCZ1ZR4JR",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469494,
+            "transactionReference": 6377,
+            "amount": 9304070
+        },
+        {
+            "id": "GZENMCX6FMEH5",
+            "status": "REJECTED",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469494,
+            "transactionReference": 7685,
+            "amount": 7219580
+        },
+        {
+            "id": "GZENLHCY3QBUZ",
+            "status": "REJECTED",
+            "paymentMethod": "NEQUI",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469494,
+            "transactionReference": 2924,
+            "amount": 7764706
+        },
+        {
+            "id": "GZENYEI4GAMGO",
+            "status": "REJECTED",
+            "paymentMethod": "CARD",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1759536000000,
+            "transactionReference": 1571,
+            "amount": 8481256,
+            "deduction": 1113525,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZENMMBUWB629",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 5687,
+            "amount": 1088135
+        },
+        {
+            "id": "GZENS35ZX248P",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1759795200000,
+            "transactionReference": 1357,
+            "amount": 5050955
+        },
+        {
+            "id": "GZENE9F901KHB",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1759881600000,
+            "transactionReference": 4658,
+            "amount": 2181930
+        },
+        {
+            "id": "GZEN64HBZ0HCE",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 9622,
+            "amount": 7001230
+        },
+        {
+            "id": "GZENP77HX9B8F",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 1027,
+            "amount": 2780173
+        },
+        {
+            "id": "GZENKNBHY1TST",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "TERMINAL",
+            "createdAt": 1759881600000,
+            "transactionReference": 2985,
+            "amount": 9966938
+        },
+        {
+            "id": "GZEN05ILBW1JG",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469494,
+            "transactionReference": 2763,
+            "amount": 790333
+        },
+        {
+            "id": "GZENX1AX5TDAD",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469494,
+            "transactionReference": 8619,
+            "amount": 4231324
+        },
+        {
+            "id": "GZENBSS6F08YD",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 2094,
+            "amount": 5533427
+        },
+        {
+            "id": "GZENPBTCTFVQD",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 1556,
+            "amount": 4109638
+        },
+        {
+            "id": "GZENXA77IEP6N",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 6678,
+            "amount": 2837783,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZEN87D3ZWN84",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 2442,
+            "amount": 1512587,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZENS4XII46VK",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760054400000,
+            "transactionReference": 1198,
+            "amount": 4340301
+        },
+        {
+            "id": "GZENCN3GFCTTK",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1759622400000,
+            "transactionReference": 8083,
+            "amount": 1332302,
+            "deduction": 132406,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZENT4S5Y9WUZ",
+            "status": "REJECTED",
+            "paymentMethod": "PSE",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469494,
+            "transactionReference": 8623,
+            "amount": 6813837,
+            "deduction": 57581
+        },
+        {
+            "id": "GZEND8VPLJCPJ",
+            "status": "REJECTED",
+            "paymentMethod": "NEQUI",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469494,
+            "transactionReference": 4341,
+            "amount": 6188230
+        },
+        {
+            "id": "GZEN0EW16EY8R",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469494,
+            "transactionReference": 4477,
+            "amount": 1505266
+        },
+        {
+            "id": "GZENH53SKHCCE",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469494,
+            "transactionReference": 5157,
+            "amount": 3415526,
+            "deduction": 482635,
+            "franchise": "MASTERCARD"
+        },
+        {
+            "id": "GZENPQ9NOQD9J",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "TERMINAL",
+            "createdAt": 1759708800000,
+            "transactionReference": 4029,
+            "amount": 709778
+        },
+        {
+            "id": "GZEN6ZHQ2J8SL",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "TERMINAL",
+            "createdAt": 1759449600000,
+            "transactionReference": 7954,
+            "amount": 3019461,
+            "deduction": 429745
+        },
+        {
+            "id": "GZENB3TYEP5KP",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "TERMINAL",
+            "createdAt": 1759708800000,
+            "transactionReference": 9442,
+            "amount": 7374742
+        },
+        {
+            "id": "GZENKTYA7VGKD",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1759536000000,
+            "transactionReference": 9617,
+            "amount": 490383,
+            "deduction": 33435
+        },
+        {
+            "id": "GZENFL6QTKVZW",
+            "status": "REJECTED",
+            "paymentMethod": "NEQUI",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469495,
+            "transactionReference": 2192,
+            "amount": 2598054,
+            "deduction": 149080
+        },
+        {
+            "id": "GZENNWKU2EB1B",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469495,
+            "transactionReference": 3991,
+            "amount": 6378300
+        },
+        {
+            "id": "GZEN6WNIK4ACP",
+            "status": "REJECTED",
+            "paymentMethod": "PSE",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469495,
+            "transactionReference": 3356,
+            "amount": 3638370
+        },
+        {
+            "id": "GZENUSOHY7XMZ",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 3690,
+            "amount": 7999078
+        },
+        {
+            "id": "GZEN0EGN7EYFG",
+            "status": "REJECTED",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469495,
+            "transactionReference": 3162,
+            "amount": 9574617
+        },
+        {
+            "id": "GZEN0SZQ0FIBT",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1759881600000,
+            "transactionReference": 4644,
+            "amount": 7129822,
+            "deduction": 312987
+        },
+        {
+            "id": "GZENDKFNNEH9R",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "CARD",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469495,
+            "transactionReference": 7948,
+            "amount": 7304461,
+            "deduction": 619638,
+            "franchise": "VISA"
+        },
+        {
+            "id": "GZEN3A2RGJNM2",
+            "status": "REJECTED",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760227200000,
+            "transactionReference": 1131,
+            "amount": 8844988
+        },
+        {
+            "id": "GZENEDX0CI51E",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "BANCOLOMBIA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760301469495,
+            "transactionReference": 2747,
+            "amount": 7084234
+        },
+        {
+            "id": "GZENM4AYEUKK7",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "NEQUI",
+            "salesType": "TERMINAL",
+            "createdAt": 1760227200000,
+            "transactionReference": 9846,
+            "amount": 295906
+        },
+        {
+            "id": "GZENBKJJP2H2V",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "PSE",
+            "salesType": "PAYMENT_LINK",
+            "createdAt": 1760301469495,
+            "transactionReference": 3349,
+            "amount": 6091360
+        },
+        {
+            "id": "GZEND4FXJ6KEJ",
+            "status": "SUCCESSFUL",
+            "paymentMethod": "DAVIPLATA",
+            "salesType": "TERMINAL",
+            "createdAt": 1760140800000,
+            "transactionReference": 3743,
+            "amount": 4558348
+        }
+    ]
+}

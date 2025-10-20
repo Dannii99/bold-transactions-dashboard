@@ -8,11 +8,12 @@ import { Tx } from '@core/models/tables.models';
 import { formatDateTime } from '@core/functions/formatDate.functions';
 import { toCOP } from '@core/functions';
 import { CopPipe } from '@shared/pipes/cop.pipe';
+import { TagPayments } from '../tag-payments/tag-payments';
 
 @Component({
   selector: 'b-drawer-details',
   standalone: true,
-  imports: [CommonModule, DrawerModule, FormsModule, ReactiveFormsModule, NgIcon, CopPipe],
+  imports: [CommonModule, DrawerModule, FormsModule, ReactiveFormsModule, NgIcon, TagPayments, CopPipe],
   templateUrl: './drawer-details.component.html',
   styleUrl: './drawer-details.component.scss',
   viewProviders: [provideIcons({ bootstrapCheck, bootstrapX })],

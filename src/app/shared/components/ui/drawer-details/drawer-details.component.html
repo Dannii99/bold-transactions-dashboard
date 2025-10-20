@@ -3,11 +3,11 @@
         <!-- Header -->
         <div class="flex flex-col items-center text-center mb-6">
             @if (params().status === 'success') {
-                <div class="flex items-center justify-center w-9 h-9 rounded-full bg-green-200 mb-3">
+                <div class="flex-center w-9 h-9 rounded-full bg-green-200 mb-3">
                     <ng-icon name="bootstrapCheck" class="!text-4xl !text-white !font-bold"></ng-icon>
                 </div>
             }@else {
-                <div class="flex items-center justify-center w-9 h-9 rounded-full bg-red-200 mb-3">
+                <div class="flex-center w-9 h-9 rounded-full bg-red-200 mb-3">
                     <ng-icon name="bootstrapX" class="!text-4xl !text-white !font-bold"></ng-icon>
                 </div>
             }
@@ -64,13 +64,5 @@
 
 <!-- Templates auxiliares -->
 <ng-template #methodBadge let-method="method">
-    <div class="flex items-center gap-2">
-        <span class="text-xs px-2 py-0.5 rounded-full ring-1 ring-slate-200 bg-slate-50 capitalize">
-            {{
-            method.brand
-            }}</span>
-        @if (method.last4) {
-        <span class="text-xs text-slate-500">•••• {{ method.last4 }}</span>
-        }
-    </div>
+    <b-tag-payments [method]="method"></b-tag-payments>
 </ng-template>

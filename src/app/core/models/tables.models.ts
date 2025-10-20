@@ -5,6 +5,7 @@ export interface Deduction {
 export interface Method {
   brand: string;
   last4?: string; // para tarjetas
+  franchise?: string // type cards
 }
 
 export interface Tx {
@@ -30,6 +31,7 @@ export interface ApiTx {
   amount: number;
   transactionReference: number;
   salesType: 'TERMINAL' | 'PAYMENT_LINK';
+  franchise: 'VISA' | 'MASTERCARD';
 }
 
 export interface ApiResponse {
