@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, InputSignal } from '@angular/core';
+import { Method } from '@core/models/tables.models';
 
 enum methodTypes {
   Bancolombia = 'bancolombia',
@@ -17,7 +18,7 @@ enum methodTypes {
   styleUrl: './tag-payments.scss',
 })
 export class TagPayments {
-  method = input.required<any>();
+  method: InputSignal<Method> = input.required<Method>();
 
   iconMethod(method: string, franchise?: string): string {
     let methodSwitch: string = method;

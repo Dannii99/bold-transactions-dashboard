@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, input, output } from '@angular/core';
+import { Component, effect, input, InputSignal, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DrawerModule } from 'primeng/drawer';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -19,8 +19,8 @@ import { TagPayments } from '../tag-payments/tag-payments';
   viewProviders: [provideIcons({ bootstrapCheck, bootstrapX })],
 })
 export class DrawerDetailsComponent {
-  visible = input.required<boolean>();
-  params = input.required<Tx>();
+  visible: InputSignal<boolean> = input.required<boolean>();
+  params: InputSignal<Tx | null> = input.required<Tx | null>();
   isVisible: boolean = false;
 
   visibleChange = output<boolean>()

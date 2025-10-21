@@ -16,7 +16,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { toCOP } from '@core/functions';
 import { DrawerDetailsComponent } from '../drawer-details/drawer-details.component';
 import { formatDateTime } from '@core/functions/formatDate.functions';
-import { ExternalFilters, PaymentMethod, PaymentOption } from '@core/models/paymentFilters.models';
+import { ExternalFilters, PaymentOption } from '@core/models/paymentFilters.models';
 import { CopPipe } from '@shared/pipes/cop.pipe';
 import { TagPayments } from '../tag-payments/tag-payments';
 

@@ -2,6 +2,7 @@ export interface Deduction {
   label: string;
   value: number;
 }
+
 export interface Method {
   brand: string;
   last4?: string; // para tarjetas
@@ -16,7 +17,7 @@ export interface Tx {
   amount: number;
   salesType: string;
   deductions: Deduction[];
-}[]
+}
 
 export interface LabelTx {
   name: string;

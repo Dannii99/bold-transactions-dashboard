@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { Layout } from './layout';
 
 describe('Layout', () => {
@@ -8,7 +9,11 @@ describe('Layout', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Layout]
+      imports: [Layout],
+      providers: [
+        provideHttpClientTesting(),
+        provideHttpClient()
+      ]
     })
     .compileComponents();
 
