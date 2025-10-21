@@ -1,19 +1,38 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiResponse, ApiTx, Method, Tx } from '@core/models/tables.models';
 import { Base } from '@core/services/base';
+import { environment as env } from '@env';
 import { catchError, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardService extends Base {
+
+  protected baseUrl = env.url;
+
   getTransactions(): Observable<Tx[]> {
     const url = 'api';
     if (!url) {
       throw new Error('URL no está definida');
     }
 
-    return this._get<ApiResponse>(url).pipe(
+    return this._get<ApiResponse>(`${this.baseUrl}${url}`).pipe(
+      map((response: ApiResponse) => this.transformTransactions(response.data)),
+      catchError((error) => {
+        console.error('Error fetching transactions:', error);
+        throw error;
+      })
+    );
+  }
+
+  getTransactionsLocal(): Observable<Tx[]> {
+    const jsonUrl = '/mocks/transactions.json';
+    if (!jsonUrl) {
+      throw new Error('URL no está definida');
+    }
+
+    return this._get<ApiResponse>(jsonUrl).pipe(
       map((response: ApiResponse) => this.transformTransactions(response.data)),
       catchError((error) => {
         console.error('Error fetching transactions:', error);
@@ -35,6 +54,9 @@ export class DashboardService extends Base {
       date: new Date(item.createdAt).toISOString(),
       method: {
         brand: this.mapPaymentMethod(item.paymentMethod),
+        franchise: item.paymentMethod.includes('CARD')
+          ? item.franchise
+          : undefined,
         last4: item.paymentMethod.includes('CARD')
           ? String(item.transactionReference).slice(-4)
           : undefined,
@@ -50,7 +72,7 @@ export class DashboardService extends Base {
   }
 
   // Método auxiliar para mapear payment methods
-  private mapPaymentMethod(method: string): any {
+  private mapPaymentMethod(method: string): string {
     const methodLower = method.toLowerCase();
     return methodLower;
   }

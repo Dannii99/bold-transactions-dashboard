@@ -1,11 +1,11 @@
 <ng-container>
-  @if (isLegend) {
+  @if (isLegend()) {
   <div
     class="w-full px-4 py-3 rounded-t-xl bg-[linear-gradient(270deg,var(--b-highlight-bg).86%,var(--b-primary-color)_83.33%)]">
-    <legend class="text-base text-white">{{legend}}</legend>
+    <legend class="text-base text-white">{{(legend())}}</legend>
   </div>
   }
-  @if (isSearch) {
+  @if (isSearch()) {
   <div class="w-full bg-white">
     <p-inputgroup>
       <p-inputgroup-addon styleClass="p-inputgroup-addon-search">
@@ -29,8 +29,8 @@
     <body>
       <div class="divide-y divide-slate-200">
         @for (tx of filtered(); track idx; let idx = $index, e = $even) {
-        <article (click)="drawerOpen(tx)" class="px-5 py-3 grid grid-cols-14 gap-3 min-h-[4.375rem] bg-white border-b border-gray-400 cursor-pointer hover:inset-shadow-sm hover:inset-shadow-gray-200" [ngClass]="[
-            e ? 'border-l-4 border-l-[var(--b-primary-color)] hover:border-l-blue-900' : 'border-l-4 border-l-gray-400 hover:border-l-gray-500', 
+        <article (click)="drawerOpen(tx)" class="px-5 py-3 grid grid-cols-14 gap-3 min-h-[4.5938rem] bg-white border-b border-gray-400 cursor-pointer hover:inset-shadow-sm hover:inset-shadow-gray-200" [ngClass]="[
+            e ? 'border-l-4 border-l-[var(--b-primary-color)] hover:border-l-blue-900' : 'border-l-4 border-l-gray-400 hover:border-l-gray-500',
             tx.deductions.length === 0 ? 'items-center' : 'items-start'
           ]">
           <!-- Col 1: Estado + texto -->
@@ -67,10 +67,10 @@
 
           <!-- Col 5: Monto + deducciones -->
           <div class="col-span-12 md:col-span-2 text-left">
-            <h4 class="text-sm font-semibold leading-2">{{ setToCOP(tx.amount) }}</h4>
+            <h4 class="text-sm font-semibold leading-2">{{ tx.amount | cop }}</h4>
             @for (d of tx.deductions; track idx; let idx = $index, e = $even) {
             <span class="text-[0.6875rem] text-slate-400">{{ d.label }}</span>
-            <p class="text-[0.6875rem] text-rose-500">- {{ setToCOP(d.value) }}</p>
+            <p class="text-[0.6875rem] text-rose-500">- {{ d.value | cop }}</p>
             }
           </div>
         </article>
@@ -87,7 +87,7 @@
         </div>
         }
         } @else {
-        <div class="w-full flex justify-center items-center px-4 py-8">
+        <div class="w-full flex-center px-4 py-8">
           <h3 class="text-xl text-center text-slate-500 montserrat-semiBold">No hay resultados para tu búsqueda</h3>
         </div>
         }
@@ -99,14 +99,7 @@
 
 <!-- Templates auxiliares -->
 <ng-template #methodBadge let-method="method">
-  <div class="flex items-center gap-2">
-    <span class="text-xs px-2 py-0.5 rounded-full ring-1 ring-slate-200 bg-slate-50 capitalize">{{
-      method.brand
-      }}</span>
-    @if (method.last4) {
-    <span class="text-xs text-slate-500">•••• {{ method.last4 }}</span>
-    }
-  </div>
+  <b-tag-payments [method]="method"></b-tag-payments>
 </ng-template>
 
 

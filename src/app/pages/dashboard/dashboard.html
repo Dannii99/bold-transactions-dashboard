@@ -8,15 +8,15 @@
         <div
           class="w-full px-5 py-4 flex justify-between items-center gap-4 text-white rounded-t-2xl bg-[linear-gradient(270deg,var(--b-highlight-bg).86%,var(--b-primary-color)_83.33%)]"
         >
-          <p class="text-sm">Total de ventas de {{StateTitle()}}</p>
-          <ng-icon name="bootstrapInfoCircle" class="text-xl text-white"></ng-icon>
+          <p class="text-sm">Total de ventas de {{stateTitle()}}</p>
+          <ng-icon name="bootstrapInfoCircle" class="text-xl text-white cursor-pointer" [pTooltip]="tooltipText()" tooltipPosition="right"></ng-icon>
         </div>
-        <div class="p-4 min-h-32 flex flex-col justify-center items-center bg-white">
+        <div class="p-4 min-h-32 flex-center flex-col bg-white">
           @if(!loading()) {
             <p
               class="montserrat-bold text-3xl mb-5 bg-[linear-gradient(270deg,var(--b-highlight-bg)_0%,var(--b-primary-color)_130%)] bg-clip-text text-transparent"
             >
-            {{ setToCOP(currency())}}
+            {{ currency() | cop }}
           </p>
           } @else {
             <div class="w-2/3 mb-5">
@@ -49,7 +49,7 @@
     </section>
 
     <section id="table" class="w-full mt-16 lg:mt-8">
-      <b-table-list (totalChange)="updateTotal($event)" [loading]="loading()" [cols]="14" [labels]="labelTxs" [body]="txs()" [SearchExternal]="filterTableTxs()" [isSearch]="true" [isLegend]="true" [legend]="`Tus ventas de ${StateTitle()}`"></b-table-list>
+      <b-table-list (totalChange)="updateTotal($event)" [loading]="loading()" [cols]="14" [labels]="labelTxs" [body]="txs()" [SearchExternal]="filterTableTxs()" [isSearch]="true" [isLegend]="true" [legend]="`Tus ventas de ${stateTitle()}`"></b-table-list>
     </section>
   </div>
 </main>

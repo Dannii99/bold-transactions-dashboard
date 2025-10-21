@@ -1,14 +1,4 @@
-import {
-  Component,
-  computed,
-  effect,
-  EventEmitter,
-  Input,
-  input,
-  OnInit,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,11 +11,14 @@ import { bootstrapLink45deg } from '@ng-icons/bootstrap-icons';
 import { ionSearch } from '@ng-icons/ionicons';
 import { matTapAndPlayOutline } from '@ng-icons/material-icons/outline';
 import { KeyFilterModule } from 'primeng/keyfilter';
-import { LabelTx, Tx } from '@core/models/tables.models';
+import { Deduction, LabelTx, Tx } from '@core/models/tables.models';
 import { SkeletonModule } from 'primeng/skeleton';
 import { toCOP } from '@core/functions';
 import { DrawerDetailsComponent } from '../drawer-details/drawer-details.component';
 import { formatDateTime } from '@core/functions/formatDate.functions';
+import { ExternalFilters, PaymentOption } from '@core/models/paymentFilters.models';
+import { CopPipe } from '@shared/pipes/cop.pipe';
+import { TagPayments } from '../tag-payments/tag-payments';
 
 @Component({
   selector: 'b-table-list',
@@ -41,26 +34,31 @@ import { formatDateTime } from '@core/functions/formatDate.functions';
     KeyFilterModule,
     NgIcon,
     SkeletonModule,
+    TagPayments,
     DrawerDetailsComponent,
+    CopPipe,
   ],
   templateUrl: './table-list.html',
   styleUrl: './table-list.scss',
   viewProviders: [provideIcons({ matTapAndPlayOutline, bootstrapLink45deg, ionSearch })],
 })
 export class TableList {
-  loading = input.required<boolean>();
-  labels = input.required<LabelTx[]>();
+  loading = input<boolean>(false);
+  labels = input<LabelTx[]>([]);
   cols = input.required<number>();
-  body = input.required<any[]>();
-  SearchExternal = input.required<any | null>();
-  @Input() isSearch: boolean = false;
-  @Input() isLegend: boolean = false;
-  @Input() legend: string = '';
+  body = input.required<Tx[]>();
+  SearchExternal = input<ExternalFilters>({
+    state: { start: '', end: '' },
+    payment: {},
+  });
+  isSearch = input<boolean>(false);
+  isLegend = input<boolean>(false);
+  legend = input<string>('');
 
-  @Output() totalChange = new EventEmitter<number>();
+  totalChange = output<number>();
 
   // búsqueda
-  search = signal('');
+  search = signal<string>('');
 
   // drawer ____________________
   drawerVisible = signal<boolean>(false);
@@ -68,14 +66,20 @@ export class TableList {
   defaultTx: Tx = {
     status: 'success',
     date: new Date().toISOString(),
-    method: {brand: ''},
+    method: { brand: '' },
     boldId: '',
     amount: 0,
     salesType: '',
-    deductions: [{label: '', value: 0}],
+    deductions: [{ label: '', value: 0 }],
   };
 
   drawerParams = signal<Tx>(this.defaultTx);
+
+  constructor() {
+    effect(() => {
+      this.totalChange.emit(this.TransaccionTotal());
+    });
+  }
 
   updateVisible(value: boolean) {
     this.drawerVisible.set(value);
@@ -98,8 +102,10 @@ export class TableList {
 
     // ─── Tipos de pago seleccionados ─────────────────────────
     const selectedPayments = Object.values(external?.payment ?? {})
-      .filter((p: any) => p.key)
-      .map((p: any) => p.key); // ejemplo: ['PAYMENT_LINK', 'TERMINAL']
+      .filter((p): p is PaymentOption | PaymentOption[] => !!p)
+      .flatMap((p) => (Array.isArray(p) ? p : [p])) // normaliza a array
+      .filter((p): p is PaymentOption => !!p.key)
+      .map((p) => p.key);
 
     const allPaymentsSelected = selectedPayments.includes('TODOS') || selectedPayments.length === 0;
 
@@ -130,16 +136,11 @@ export class TableList {
   // Total de las transacciones filtradas
   TransaccionTotal = computed(() => {
     return this.filtered().reduce((acc, tx) => {
-      const totalDeductions = tx.deductions?.reduce((sum: number, d: any) => sum + d.value, 0) || 0;
+      const totalDeductions =
+        tx.deductions?.reduce((sum: number, d: Deduction) => sum + d.value, 0) || 0;
       return acc + (tx.amount - totalDeductions);
     }, 0);
   });
-
-  constructor() {
-    effect(() => {
-      this.totalChange.emit(this.TransaccionTotal());
-    });
-  }
 
   drawerOpen(tx: Tx) {
     this.drawerVisible.set(true);
@@ -152,7 +153,4 @@ export class TableList {
   setFormatDateTime(value: string): string {
     return formatDateTime(value);
   }
-
-
 }
-  

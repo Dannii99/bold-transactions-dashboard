@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, EventEmitter, input, Output } from '@angular/core';
+import { Component, effect, input, InputSignal, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DrawerModule } from 'primeng/drawer';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -7,23 +7,25 @@ import { bootstrapCheck, bootstrapX } from '@ng-icons/bootstrap-icons';
 import { Tx } from '@core/models/tables.models';
 import { formatDateTime } from '@core/functions/formatDate.functions';
 import { toCOP } from '@core/functions';
+import { CopPipe } from '@shared/pipes/cop.pipe';
+import { TagPayments } from '../tag-payments/tag-payments';
 
 @Component({
   selector: 'b-drawer-details',
   standalone: true,
-  imports: [CommonModule, DrawerModule, FormsModule, ReactiveFormsModule, NgIcon],
+  imports: [CommonModule, DrawerModule, FormsModule, ReactiveFormsModule, NgIcon, TagPayments, CopPipe],
   templateUrl: './drawer-details.component.html',
   styleUrl: './drawer-details.component.scss',
   viewProviders: [provideIcons({ bootstrapCheck, bootstrapX })],
 })
 export class DrawerDetailsComponent {
-  visible = input.required<boolean>();
-  params = input.required<Tx>();
+  visible: InputSignal<boolean> = input.required<boolean>();
+  params: InputSignal<Tx | null> = input.required<Tx | null>();
   isVisible: boolean = false;
 
-  @Output() visibleChange = new EventEmitter<boolean>();
+  visibleChange = output<boolean>()
 
-  close(event: any) {
+  close(event: boolean) {
     this.visibleChange.emit(event);
   }
 
