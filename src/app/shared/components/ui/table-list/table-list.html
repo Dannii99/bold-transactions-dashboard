@@ -9,7 +9,7 @@
   <div class="w-full bg-white">
     <p-inputgroup>
       <p-inputgroup-addon styleClass="p-inputgroup-addon-search">
-        <ng-icon name="ionSearch" class="text-xl !text-[var(--b-gray-color)]"></ng-icon>
+        <ng-icon name="ionSearch" class="text-xl text-(--b-gray-color)!"></ng-icon>
       </p-inputgroup-addon>
       <input maxlength="50" pInputText class="p-inputtext-search" [value]="search()"
         (input)="search.set($any($event.target).value)" placeholder="Buscar" [pKeyFilter]="blockChars" fluid
@@ -30,7 +30,7 @@
       <div class="divide-y divide-slate-200">
         @for (tx of filtered(); track idx; let idx = $index, e = $even) {
         <article (click)="drawerOpen(tx)" class="px-5 py-3 grid grid-cols-14 gap-3 min-h-[4.5938rem] bg-white border-b border-gray-400 cursor-pointer hover:inset-shadow-sm hover:inset-shadow-gray-200" [ngClass]="[
-            e ? 'border-l-4 border-l-[var(--b-primary-color)] hover:border-l-blue-900' : 'border-l-4 border-l-gray-400 hover:border-l-gray-500',
+            e ? 'border-l-4 border-l-(--b-primary-color) hover:border-l-blue-900' : 'border-l-4 border-l-gray-400 hover:border-l-gray-500',
             tx.deductions.length === 0 ? 'items-center' : 'items-start'
           ]">
           <!-- Col 1: Estado + texto -->
