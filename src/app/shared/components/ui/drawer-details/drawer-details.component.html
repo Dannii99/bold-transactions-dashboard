@@ -4,15 +4,15 @@
         <div class="flex flex-col items-center text-center mb-6">
             @if (params()!.status === 'success') {
                 <div class="flex-center w-9 h-9 rounded-full bg-green-200 mb-3">
-                    <ng-icon name="bootstrapCheck" class="!text-4xl !text-white !font-bold"></ng-icon>
+                    <ng-icon name="bootstrapCheck" class="text-4xl! text-white! font-bold!"></ng-icon>
                 </div>
             }@else {
                 <div class="flex-center w-9 h-9 rounded-full bg-red-200 mb-3">
-                    <ng-icon name="bootstrapX" class="!text-4xl !text-white !font-bold"></ng-icon>
+                    <ng-icon name="bootstrapX" class="text-4xl! text-white! font-bold!"></ng-icon>
                 </div>
             }
             <h2 class="text-lg montserrat-bold text-black">{{params()!.status === 'success' ? '¡Cobro exitoso!' : '¡Cobro no realizado!' }}</h2>
-            <p class="text-3xl montserrat-semiBold text-[var(--b-text-color)]">{{ params()!.amount | cop}}</p>
+            <p class="text-3xl montserrat-semiBold text-(--b-text-color)">{{ params()!.amount | cop}}</p>
             <p class="text-sm text-gray-500"> {{ setFormatDateTime(params()!.date) }}</p>
         </div>
 
@@ -47,7 +47,7 @@
                 </span>
 
 
-                <span class="flex font-medium text-[var(--b-primary-color)]">
+                <span class="flex font-medium text-(--b-primary-color)">
                     @if (params()!.salesType === 'PAYMENT_LINK') {
                     <ng-icon name="bootstrapLink45deg" class="text-xl mr-3"></ng-icon>
                     } @else {
